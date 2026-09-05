@@ -122,6 +122,30 @@
   .step-box .step-body{ padding:1rem 1.25rem; }
   .step-box .step-body p:last-child{ margin-bottom:0; }
 
+  /* Responsive inline photos — scale to container, cap tall shots on desktop */
+  .post-figure{ margin:1.5rem 0; }
+  .post-figure img{
+    width:100%; height:auto; display:block;
+    border-radius:.6rem;
+    box-shadow:0 .3rem .9rem rgba(0,0,0,.22);
+    background:#e9ecef;
+  }
+  .post-figure figcaption{
+    font-size:.82rem; line-height:1.45; color:#5c5c5c;
+    padding:.55rem .15rem 0;
+  }
+  .post-figure figcaption .credit{ color:#8a8a8a; }
+  .post-figure figcaption .credit a{ color:#8a8a8a; }
+  .post-figure.portrait{ max-width:520px; margin-left:auto; margin-right:auto; }
+  .post-figure.pano img{ border-radius:.4rem; }
+  /* Two-up grid on wider screens, stacked on phones */
+  .figure-row{ display:grid; grid-template-columns:1fr; gap:1rem; margin:1.5rem 0; }
+  @media (min-width:768px){ .figure-row{ grid-template-columns:1fr 1fr; align-items:start; } }
+  .figure-row .post-figure{ margin:0; }
+  .figure-row .post-figure.portrait{ max-width:100%; }
+  .photo-credits{ font-size:.82rem; color:#5c5c5c; }
+  .photo-credits li{ margin-bottom:.3rem; }
+
   footer{ background:var(--nav-blue); }
   footer a{ color:#fff; }
 </style>
@@ -184,6 +208,7 @@
             <div class="toc-item"><span class="toc-num">8</span><a href="#distances">Driving Distances &amp; Times</a></div>
             <div class="toc-item"><span class="toc-num">9</span><a href="#bonus">Bonus: If You Have One More Day</a></div>
             <div class="toc-item"><span class="toc-num">10</span><a href="#takeaways">Key Takeaways</a></div>
+            <div class="toc-item"><span class="toc-num">★</span><a href="#credits">Photo Credits</a></div>
           </div>
         </div>
       </div>
@@ -198,6 +223,12 @@
         <p class="mb-0">Fly into <strong>Las Vegas (LAS)</strong> — it's ~2h45m to Zion, versus ~4-5 hours if you fly into Salt Lake City instead. Rent a car at the airport (this route is not realistically doable without one). The loop below is <strong>Las Vegas → Zion (2 nights) → Bryce Canyon (1 night) → back to Las Vegas</strong>, roughly 460 total driving miles over 4 days — plenty of park time, no exhausting all-day drives.</p>
       </div>
     </div>
+
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-zion-canyon-overview.jpg" alt="Zion Canyon at dusk, seen from Angels Landing — sheer sandstone walls dropping to the green valley floor and the Virgin River" width="1000" height="1025" loading="lazy" decoding="async">
+      <figcaption>Zion Canyon from above at last light — the Virgin River winding through the valley floor between 2,000-foot walls. <span class="credit">Photo: Diliff / Wikimedia Commons (CC BY-SA 3.0)</span></figcaption>
+    </figure>
+
     <div class="code-window">
       <div class="code-titlebar"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-filename">trip-at-a-glance.txt</span></div>
 <pre><code>Day 1  Las Vegas (LAS)  --2h45m-->  Zion National Park (Springdale)
@@ -247,6 +278,17 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
       </div>
     </div>
 
+    <div class="figure-row">
+      <figure class="post-figure">
+        <img src="Pictures/TRAVEL-UTAH-zion-canyon-scenic-drive.jpg" alt="Red-and-white Navajo sandstone cliffs rising above cottonwood trees along the Zion Canyon Scenic Drive" width="1400" height="1050" loading="lazy" decoding="async">
+        <figcaption>Along the Zion Canyon Scenic Drive — from April to October you see this from the free park shuttle, not your own car. <span class="credit">Photo: Ken Lund / Wikimedia Commons (CC BY-SA 2.0)</span></figcaption>
+      </figure>
+      <figure class="post-figure portrait">
+        <img src="Pictures/TRAVEL-UTAH-emerald-pools.jpg" alt="Towering red cliffs above the green, tree-filled Emerald Pools trail area in Zion Canyon" width="1125" height="1500" loading="lazy" decoding="async">
+        <figcaption>The Emerald Pools trail network climbs through hanging gardens beneath the canyon walls — the family-friendly alternative to the Narrows. <span class="credit">Photo: Vulturesong / Wikimedia Commons (CC0)</span></figcaption>
+      </figure>
+    </div>
+
     <div class="card shadow-sm accent-green">
       <div class="card-body">
         <p class="mb-0"><strong>Don't miss:</strong> sunset from the <strong>Canyon Junction bridge</strong> or the pullout near the Zion Human History Museum — the west-facing canyon walls turn deep orange-red in the last hour of light, and it's a 5-minute stroll from the shuttle, not a hike.</p>
@@ -266,6 +308,11 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
       </div>
     </div>
 
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-angels-landing.jpg" alt="The view down Zion Canyon from the top of Angels Landing, framed by a pine tree, red cliffs plunging to the green valley floor" width="1400" height="1050" loading="lazy" decoding="async">
+      <figcaption>The payoff at the top of Angels Landing — a 1,000-foot drop on either side of the final spine gets you here. <span class="credit">Photo: Tobias Alt / Wikimedia Commons (CC BY-SA 4.0)</span></figcaption>
+    </figure>
+
     <div class="step-box">
       <div class="step-bar"><span class="step-title">Option B — Observation Point via East Mesa Trail</span><span class="time-pill">~3 hrs round trip, 6.5 miles</span></div>
       <div class="step-body">
@@ -273,11 +320,27 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
       </div>
     </div>
 
+    <figure class="post-figure portrait">
+      <img src="Pictures/TRAVEL-UTAH-observation-point.jpg" alt="Looking straight down the length of Zion Canyon from Observation Point, the switchbacking scenic drive tiny on the valley floor far below" width="1125" height="1500" loading="lazy" decoding="async">
+      <figcaption>From Observation Point you look <em>down</em> the whole canyon — Angels Landing is the low ridge on the right, well below you. No permit required. <span class="credit">Photo: Oliver Löffler / Wikimedia Commons (public domain)</span></figcaption>
+    </figure>
+
     <div class="step-box">
       <div class="step-bar"><span class="step-title">Afternoon — Kolob Canyons (or The Narrows)</span><span class="time-pill">~1-3 hrs</span></div>
       <div class="step-body">
         <p class="mb-0"><strong>Kolob Canyons</strong> is a separate, much quieter entrance off I-15 about 40 minutes from Springdale — a 5-mile scenic drive to a viewpoint over the Finger Canyons, with almost none of Zion Canyon's crowds. Good low-effort way to see a completely different part of the park. Alternatively, if you skipped it Day 1 and conditions allow (see §5), spend the afternoon wading upstream into <strong>The Narrows</strong> from Riverside Walk — even the first mile, wading in the Virgin River between thousand-foot walls, is unlike anything else in the park.</p>
       </div>
+    </div>
+
+    <div class="figure-row">
+      <figure class="post-figure">
+        <img src="Pictures/TRAVEL-UTAH-kolob-canyons.jpg" alt="The deep-red Finger Canyons of the Kolob section of Zion National Park rising above a green, forested slope" width="1400" height="1050" loading="lazy" decoding="async">
+        <figcaption>Kolob Canyons — the quiet corner of Zion off I-15, a short scenic drive with a fraction of the main-canyon crowds. <span class="credit">Photo: Ben P L / Wikimedia Commons (CC BY-SA 2.0)</span></figcaption>
+      </figure>
+      <figure class="post-figure portrait">
+        <img src="Pictures/TRAVEL-UTAH-the-narrows.jpg" alt="The Virgin River rushing over boulders between the sculpted sandstone walls of The Narrows in Zion Canyon" width="1125" height="1500" loading="lazy" decoding="async">
+        <figcaption>The Narrows — you wade the river itself. In April it runs high, cold and fast with snowmelt; check outfitter conditions first (see §5). <span class="credit">Photo: Trougnouf (Benoit Brummer) / Wikimedia Commons (CC BY 4.0)</span></figcaption>
+      </figure>
     </div>
 
     <div class="card shadow-sm accent-red">
@@ -299,11 +362,27 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
       </div>
     </div>
 
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-zion-mount-carmel-tunnel.jpg" alt="A car emerging onto a bridge from the east portal of the Zion-Mount Carmel Tunnel, cut into a steep slickrock canyon wall" width="1400" height="933" loading="lazy" decoding="async">
+      <figcaption>The east portal of the Zion-Mount Carmel Tunnel — switchbacks, a bridge and a mile of rock between you and the slickrock country beyond. <span class="credit">Photo: Alex Proimos / Wikimedia Commons (CC BY 2.0)</span></figcaption>
+    </figure>
+
     <div class="step-box">
       <div class="step-bar"><span class="step-title">Midday — U.S. 89 &amp; Scenic Byway 12</span><span class="time-pill">~1h15m driving</span></div>
       <div class="step-body">
         <p class="mb-0">From the park's east entrance, join US-89 north, then turn onto <strong>Utah Scenic Byway 12</strong> — officially an "All-American Road," one of only a few dozen in the country. Stop at <strong>Red Canyon</strong> (part of Dixie National Forest, right where Highway 12 begins) — smaller-scale but just as vividly red as Bryce itself, with an easy paved bike/walking path directly beside the parking area. It's a perfect stretching-your-legs stop and often much less crowded.</p>
       </div>
+    </div>
+
+    <div class="figure-row">
+      <figure class="post-figure">
+        <img src="Pictures/TRAVEL-UTAH-scenic-byway-12.jpg" alt="Utah Scenic Byway 12 winding across a vast expanse of pale slickrock toward distant mountains" width="1400" height="888" loading="lazy" decoding="async">
+        <figcaption>Scenic Byway 12 is a destination, not a transit day — an "All-American Road" across slickrock and canyon country between the two parks. <span class="credit">Photo: Tony Webster / Wikimedia Commons (CC BY-SA 2.0)</span></figcaption>
+      </figure>
+      <figure class="post-figure">
+        <img src="Pictures/TRAVEL-UTAH-red-canyon.jpg" alt="Bright orange-red rock spires and pinnacles beside Highway 12 at the Dixie National Forest boundary, Red Canyon" width="1400" height="849" loading="lazy" decoding="async">
+        <figcaption>Red Canyon, where Highway 12 begins — Bryce-red hoodoos right beside the road, with a paved path and far fewer people. <span class="credit">Photo: Fabio Achilli / Wikimedia Commons (CC BY 2.0)</span></figcaption>
+      </figure>
     </div>
 
     <div class="step-box">
@@ -312,6 +391,11 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
         <p class="mb-0">Check into your Bryce-area hotel, then head straight to the park's main amphitheater viewpoints, all connected by an easy paved <strong>Rim Trail</strong>: <strong>Sunrise Point</strong>, <strong>Sunset Point</strong>, <strong>Inspiration Point</strong>, and <strong>Bryce Point</strong> (the widest panorama of the whole amphitheater of hoodoos). Time your visit to Bryce Point or Inspiration Point for sunset — the orange spires light up dramatically as the sun drops, and this is a short walk from parking, not a hike.</p>
       </div>
     </div>
+
+    <figure class="post-figure pano">
+      <img src="Pictures/TRAVEL-UTAH-bryce-amphitheater.jpg" alt="Wide panorama of the Bryce Canyon amphitheater, thousands of orange and cream hoodoos stepping down from a forested rim" width="1400" height="475" loading="lazy" decoding="async">
+      <figcaption>The Bryce Canyon amphitheater from the Rim Trail — the whole thing is a short, flat walk between Sunrise and Bryce points. <span class="credit">Photo: Tuxyso / Wikimedia Commons (CC BY-SA 3.0)</span></figcaption>
+    </figure>
 
     <div class="card shadow-sm accent-purple">
       <div class="card-body">
@@ -332,12 +416,22 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
       </div>
     </div>
 
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-bryce-sunrise-point.jpg" alt="The sun breaking the horizon at Bryce Canyon, warm light on hoodoos and pines with a few hikers on the trail below Sunrise Point" width="1400" height="933" loading="lazy" decoding="async">
+      <figcaption>First light from Sunrise Point. Bryce sits at ~8,000 ft — expect it near freezing at dawn in April, so pack a hat and gloves. <span class="credit">Photo: King of Hearts / Wikimedia Commons (CC BY-SA 4.0)</span></figcaption>
+    </figure>
+
     <div class="step-box">
       <div class="step-bar"><span class="step-title">Mid-morning — Navajo Loop + Queen's Garden combo</span><span class="time-pill">~1.5-2 hrs, 2.9 miles</span></div>
       <div class="step-body">
         <p class="mb-0">The park's classic "combination trail" descends into the amphitheater itself, threading between hoodoos rather than just looking at them from the rim — including <strong>Wall Street</strong>, a narrow slot with switchbacks between towering rock walls. <strong>April caution:</strong> the Navajo Loop's Wall Street side is often closed into spring due to ice/rockfall risk from snowmelt — check at the Visitor Center; if closed, do the gentler <strong>Queen's Garden</strong> trail alone (also from Sunrise Point) or the easy, flat <strong>Mossy Cave Trail</strong> (a short walk to a small waterfall and hoodoos, on Highway 12 just outside the main park entrance) instead.</p>
       </div>
     </div>
+
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-navajo-loop-wall-street.jpg" alt="Hikers walking single-file through a short tunnel carved in pink rock on the Navajo Loop trail, down among the Bryce Canyon hoodoos" width="1400" height="1050" loading="lazy" decoding="async">
+      <figcaption>The combination trail takes you down <em>into</em> the amphitheater, threading between hoodoos and through cuts in the rock rather than viewing from the rim. <span class="credit">Photo: Ken Lund / Wikimedia Commons (CC BY-SA 2.0)</span></figcaption>
+    </figure>
 
     <div class="step-box">
       <div class="step-bar"><span class="step-title">Midday — scenic drive to Rainbow/Yovimpa Point</span><span class="time-pill">~1.5-2 hrs round trip</span></div>
@@ -346,12 +440,22 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
       </div>
     </div>
 
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-rainbow-point.jpg" alt="Snow-dusted rock and evergreen forest at Rainbow Point, the high south end of Bryce Canyon, hazy ridges receding toward Arizona" width="1400" height="1050" loading="lazy" decoding="async">
+      <figcaption>Rainbow Point, road's end at over 9,100 ft — a forested, high-elevation view south over the Grand Staircase. Snow lingers here well into spring. <span class="credit">Photo: Phil Whitehouse / Wikimedia Commons (CC BY 2.0)</span></figcaption>
+    </figure>
+
     <div class="card shadow-sm accent-purple mb-4">
       <div class="card-body">
         <p class="mb-1"><strong>Optional detour — Kodachrome Basin State Park</strong> (~30 min from Bryce)</p>
         <p class="mb-0">A different, less-visited landscape: dozens of tall sandstone "sand pipe" spires rising from the desert floor. The Panorama Trail loop (3 miles) or the short Grand Parade / Shakespeare Arch spur trails give you the highlights in under an hour and this park is almost never crowded, even in peak season.</p>
       </div>
     </div>
+
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-kodachrome-basin.jpg" alt="Glowing red sandstone spires and cliffs of Kodachrome Basin State Park lit by low evening sun" width="1400" height="933" loading="lazy" decoding="async">
+      <figcaption>Kodachrome Basin's sandstone "sand pipes" — a half-hour from Bryce and almost never crowded, even in peak season. <span class="credit">Photo: Murray Foubister / Wikimedia Commons (CC BY-SA 2.0)</span></figcaption>
+    </figure>
 
     <div class="card shadow-sm accent-blue">
       <div class="card-body">
@@ -485,11 +589,22 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
         <p class="mb-0">Add a 5th day and continue east on Scenic Byway 12 (~2h15m from Bryce) to <strong>Capitol Reef National Park</strong> — dramatically less crowded than Zion or Bryce, with the historic Fruita orchard district, the easy Hickman Bridge natural-arch hike, and Capitol Gorge's ancient petroglyph panel. This turns the loop into a one-way drive ending near Torrey, UT, roughly 3.5 hours from Salt Lake City for your return flight instead of backtracking to Las Vegas — worth it only if your itinerary allows an open-jaw flight (fly into LAS, home from SLC).</p>
       </div>
     </div>
+
+    <figure class="post-figure portrait">
+      <img src="Pictures/TRAVEL-UTAH-capitol-reef-hickman-bridge.jpg" alt="The large Hickman Bridge natural rock span arcing against a deep blue sky in Capitol Reef National Park" width="1125" height="1500" loading="lazy" decoding="async">
+      <figcaption>Hickman Bridge in Capitol Reef — an easy 1.7-mile round trip and the payoff for adding a fifth day east on Highway 12. <span class="credit">Photo: Autumn1198 / Wikimedia Commons (CC BY-SA 4.0)</span></figcaption>
+    </figure>
+
     <div class="card shadow-sm accent-blue">
       <div class="card-body">
         <p class="mb-0">If you'd rather stay closer to Las Vegas, a lower-effort 5th-day add-on is the <strong>Grand Canyon's North Rim</strong> (seasonal — typically closed until mid-May, so check status before planning) or a half-day at <strong>Valley of Fire State Park</strong>, only 50 minutes from Las Vegas itself and open year-round — genuinely striking red-sandstone scenery if you land with time before your flight home rather than after it.</p>
       </div>
     </div>
+
+    <figure class="post-figure">
+      <img src="Pictures/TRAVEL-UTAH-valley-of-fire.jpg" alt="A road winding through the banded red and white sandstone of Valley of Fire State Park near Las Vegas" width="1400" height="933" loading="lazy" decoding="async">
+      <figcaption>Valley of Fire, 50 minutes from Las Vegas — the easiest possible add-on if you land with a few hours before your flight home. <span class="credit">Photo: Gzzz / Wikimedia Commons (CC BY 4.0)</span></figcaption>
+    </figure>
     <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
   </section>
 
@@ -504,6 +619,36 @@ Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
           <li><strong>Book the Angels Landing lottery and your Springdale/Bryce lodging weeks ahead</strong> — these are the two pieces of this trip that can't be improvised on arrival.</li>
           <li><strong>April means real cold at Bryce's elevation and real cold water in the Narrows</strong> — pack for both extremes and check trail/river conditions same-day rather than assuming based on Zion's warmer valley floor.</li>
           <li><strong>The Highway 12 drive between the parks is a destination in itself</strong>, not just a transit day — build in time for Red Canyon and don't treat it as a driving obligation to rush through.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- PHOTO CREDITS -->
+  <section id="credits" class="mb-4">
+    <h2 class="section-title">Photo Credits</h2>
+    <div class="card shadow-sm">
+      <div class="card-body photo-credits">
+        <p class="mb-2">All photos are from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>, reused under the licenses noted. Images were resized and recompressed for the web; no other changes were made.</p>
+        <ul class="mb-0">
+          <li>Zion Canyon from Angels Landing — Diliff (CC BY-SA 3.0)</li>
+          <li>Zion Canyon Scenic Drive — Ken Lund (CC BY-SA 2.0)</li>
+          <li>Emerald Pools Trail — Vulturesong (CC0 / public domain)</li>
+          <li>Angels Landing summit view — Tobias Alt (CC BY-SA 4.0)</li>
+          <li>Observation Point — Oliver Löffler (public domain)</li>
+          <li>Kolob Canyons — Ben P L (CC BY-SA 2.0)</li>
+          <li>The Narrows — Trougnouf (Benoit Brummer) (CC BY 4.0)</li>
+          <li>Zion-Mount Carmel Tunnel — Alex Proimos (CC BY 2.0)</li>
+          <li>Scenic Byway 12 — Tony Webster (CC BY-SA 2.0)</li>
+          <li>Red Canyon, Dixie National Forest — Fabio Achilli (CC BY 2.0)</li>
+          <li>Bryce Canyon amphitheater — Tuxyso (CC BY-SA 3.0)</li>
+          <li>Sunrise Point, Bryce Canyon — King of Hearts (CC BY-SA 4.0)</li>
+          <li>Navajo Loop Trail — Ken Lund (CC BY-SA 2.0)</li>
+          <li>Rainbow Point, Bryce Canyon — Phil Whitehouse (CC BY 2.0)</li>
+          <li>Kodachrome Basin State Park — Murray Foubister (CC BY-SA 2.0)</li>
+          <li>Hickman Bridge, Capitol Reef — Autumn1198 (CC BY-SA 4.0)</li>
+          <li>Valley of Fire State Park — Gzzz (CC BY 4.0)</li>
         </ul>
       </div>
     </div>
