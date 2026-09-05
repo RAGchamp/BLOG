@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A 4-Day Utah Road Trip in April — Zion, Bryce Canyon &amp; Highway 12</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/vs2015.min.css">
+<style>
+  :root{
+    --biz-blue:#0d6efd;
+    --biz-blue-light:#6ea8fe;
+    --biz-blue-dark:#084298;
+    --biz-yellow:#ffc107;
+    --biz-red:#dc3545;
+    --biz-green:#198754;
+    --biz-purple:#6f42c1;
+    --biz-rust:#b5461a;
+    --nav-blue:#04264d;
+    --nav-yellow:#ffd60a;
+  }
+  body{ background:#f7f8fa; margin:0; }
+
+  /* Sticky top nav — same as index.html */
+  .topnav{
+    position:sticky; top:0; z-index:1030;
+    background:var(--nav-blue);
+    color:var(--nav-yellow);
+    padding:.9rem 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.25);
+  }
+  .topnav .brand{ display:inline-flex; align-items:center; text-decoration:none; }
+  .topnav .brand-logo{ height:44px; width:auto; display:block; }
+  .topnav .tagline{
+    font-weight:600; font-size:1.05rem; color:var(--nav-yellow);
+    letter-spacing:.15em; word-spacing:.6em; font-style:italic;
+  }
+  @media (max-width:576px){
+    .topnav{ flex-direction:column; text-align:center; gap:.4rem; padding:.75rem 1rem; }
+  }
+
+  section[id]{ scroll-margin-top:84px; }
+  html{ scroll-behavior:smooth; }
+
+  /* Hero — red-rock desert gradient */
+  .hero{
+    background:linear-gradient(120deg, #7a2e05 0%, #b5461a 45%, #d98a3d 100%);
+    color:#fff;
+  }
+  .hero code{ color:#fff; background:rgba(255,255,255,.15); }
+  .accent-blue{ border-left:5px solid var(--biz-blue); }
+  .accent-green{ border-left:5px solid var(--biz-green); }
+  .accent-red{ border-left:5px solid var(--biz-red); }
+  .accent-yellow{ border-left:5px solid var(--biz-yellow); }
+  .accent-purple{ border-left:5px solid var(--biz-purple); }
+  .accent-rust{ border-left:5px solid var(--biz-rust); }
+
+  .section-title{
+    display:inline-flex; align-items:center; gap:.6rem;
+    padding-bottom:.4rem; border-bottom:3px solid var(--biz-rust);
+    margin-bottom:1.25rem;
+  }
+  .toc-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.8rem; height:1.8rem; border-radius:50%;
+    background:var(--biz-yellow); color:#2b2b2b; font-weight:700; font-size:.85rem;
+    margin-right:.5rem; flex:none;
+  }
+  .toc-list a{ text-decoration:none; color:#212529; }
+  .toc-list a:hover{ color:var(--biz-rust); text-decoration:underline; }
+  .toc-item{ display:flex; align-items:center; padding:.4rem 0; }
+  .back-to-top{ font-size:.85rem; }
+  .color-key-dot{ width:.9rem; height:.9rem; border-radius:50%; display:inline-block; margin-right:.4rem; }
+  table td.num, table th.num{ text-align:right; white-space:nowrap; }
+  main table thead th{ background:#ffdf7e !important; color:#212529; border-color:#e6c257; }
+  main table tbody tr:nth-child(odd) > *{ background:#fbeee1 !important; }
+  main table tbody tr:nth-child(even) > *{ background:#fdf6ef !important; }
+
+  /* VS Code style dark "itinerary at a glance" windows */
+  .code-window{ background:#084298; border-radius:.5rem; overflow:hidden; margin:1rem 0 1.5rem; box-shadow:0 .25rem .75rem rgba(0,0,0,.3); }
+  .code-window .code-titlebar{
+    background:#323233; color:#cccccc; padding:.45rem .9rem; font-size:.8rem;
+    display:flex; align-items:center; gap:.4rem; font-family:'Segoe UI',Roboto,sans-serif;
+  }
+  .code-window .dot{ width:.7rem; height:.7rem; border-radius:50%; display:inline-block; }
+  .dot-red{ background:#ff5f56; } .dot-yellow{ background:#ffbd2e; } .dot-green{ background:#27c93f; }
+  .code-window .code-filename{ margin-left:.5rem; opacity:.85; }
+  .code-window pre{ margin:0 !important; padding:1rem 1.25rem !important; background:#084298 !important; overflow-x:auto; }
+  .code-window code, .code-window code *{ font-family:'Fira Code',Consolas,Monaco,monospace; font-size:.85rem; background:transparent !important; color:#ffffff !important; font-weight:700 !important; text-shadow:none; }
+
+  .badge-tool{ background:#04264d; color:var(--nav-yellow); }
+
+  /* Step-by-step walkthrough boxes — one per stop / hike */
+  .step-box{
+    background:#e9ecef;
+    border-radius:.5rem;
+    overflow:hidden;
+    margin:0 0 1.25rem;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.12);
+  }
+  .step-box .step-bar{
+    background:var(--nav-blue);
+    color:#5BF527;
+    font-weight:700;
+    padding:.5rem 1.1rem;
+    font-size:.95rem;
+    letter-spacing:.02em;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:.4rem;
+  }
+  .step-box .step-bar .step-title{ font-weight:700; }
+  .step-box .step-bar .time-pill{
+    background:rgba(255,255,255,.14); color:#fff; font-weight:700;
+    border-radius:999px; padding:.15rem .7rem; font-size:.78rem; letter-spacing:0;
+  }
+  .step-box .step-body{ padding:1rem 1.25rem; }
+  .step-box .step-body p:last-child{ margin-bottom:0; }
+
+  footer{ background:var(--nav-blue); }
+  footer a{ color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP NAV -->
+<div class="topnav">
+  <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="RAG Champ"></a>
+  <div class="tagline">Fun Travel Ideas</div>
+</div>
+
+<!-- HERO -->
+<header class="hero py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-9">
+        <span class="badge rounded-pill bg-warning text-dark mb-3">Travel Guide · Utah · 4 Days · April</span>
+        <h1 class="display-6 fw-bold">A 4-Day Utah Road Trip: Zion, Bryce Canyon &amp; the Red-Rock Byway</h1>
+        <p class="lead mb-0 text-white">April is one of the two best windows to see southern Utah — after the winter ice and before the summer heat and crowds. This plan is a compact loop out of Las Vegas (the closest major airport to Zion) covering two of Utah's "Mighty 5" national parks, <strong>Zion</strong> and <strong>Bryce Canyon</strong>, connected by one of the most scenic drives in America. It's a realistic, unrushed pace — two full days in Zion, a scenic drive-day, and a final morning in Bryce — not a checklist sprint through all five parks.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-5">
+
+  <!-- COLOR KEY -->
+  <div class="mb-5">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body py-3">
+        <div class="row g-2 small text-center text-md-start">
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-blue);"></span>Blue — getting there / logistics</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-green);"></span>Green — don't-miss highlight</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-yellow);"></span>Yellow — practical tips &amp; timing</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-red);"></span>Red — cautions: weather, permits, safety</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-purple);"></span>Purple — optional bonus stop</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <section id="toc" class="mb-5">
+    <h2 class="section-title">Table of Contents</h2>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="row toc-list">
+          <div class="col-md-6">
+            <div class="toc-item"><span class="toc-num">0</span><a href="#overview">Trip Overview &amp; Route at a Glance</a></div>
+            <div class="toc-item"><span class="toc-num">1</span><a href="#day1">Day 1 — Fly In &amp; Zion Canyon</a></div>
+            <div class="toc-item"><span class="toc-num">2</span><a href="#day2">Day 2 — Zion's Best Hikes</a></div>
+            <div class="toc-item"><span class="toc-num">3</span><a href="#day3">Day 3 — Highway 12 to Bryce Canyon</a></div>
+            <div class="toc-item"><span class="toc-num">4</span><a href="#day4">Day 4 — Sunrise at Bryce, Kodachrome Basin &amp; Departure</a></div>
+            <div class="toc-item"><span class="toc-num">5</span><a href="#april">April in Utah — Weather, Crowds &amp; Packing List</a></div>
+          </div>
+          <div class="col-md-6">
+            <div class="toc-item"><span class="toc-num">6</span><a href="#permits">Permits, Reservations &amp; Booking Timeline</a></div>
+            <div class="toc-item"><span class="toc-num">7</span><a href="#stays">Where to Stay Each Night</a></div>
+            <div class="toc-item"><span class="toc-num">8</span><a href="#distances">Driving Distances &amp; Times</a></div>
+            <div class="toc-item"><span class="toc-num">9</span><a href="#bonus">Bonus: If You Have One More Day</a></div>
+            <div class="toc-item"><span class="toc-num">10</span><a href="#takeaways">Key Takeaways</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 0. OVERVIEW -->
+  <section id="overview" class="mb-5">
+    <h2 class="section-title">0. Trip Overview &amp; Route at a Glance</h2>
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0">Fly into <strong>Las Vegas (LAS)</strong> — it's ~2h45m to Zion, versus ~4-5 hours if you fly into Salt Lake City instead. Rent a car at the airport (this route is not realistically doable without one). The loop below is <strong>Las Vegas → Zion (2 nights) → Bryce Canyon (1 night) → back to Las Vegas</strong>, roughly 460 total driving miles over 4 days — plenty of park time, no exhausting all-day drives.</p>
+      </div>
+    </div>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-filename">trip-at-a-glance.txt</span></div>
+<pre><code>Day 1  Las Vegas (LAS)  --2h45m-->  Zion National Park (Springdale)
+       Zion Canyon Scenic Drive, Riverside Walk, Emerald Pools     [overnight: Springdale]
+
+Day 2  Zion National Park — full day
+       Sunrise hike (Angels Landing or Observation Point/West Rim)
+       Afternoon: Kolob Canyons or Narrows wade (weather permitting)  [overnight: Springdale]
+
+Day 3  Zion  --1h45m-->  Bryce Canyon  (via Zion-Mt Carmel Tunnel + Scenic Hwy 12)
+       Stop: Red Canyon  |  Afternoon/sunset: Sunset Point, Bryce Point, Inspiration Point
+                                                              [overnight: Bryce Canyon City]
+
+Day 4  Sunrise at Sunrise Point  ->  18-mile park scenic drive to Rainbow Point
+       Navajo Loop + Queen's Garden combo hike (or Mossy Cave if trails are icy)
+       Kodachrome Basin State Park (optional, 30 min away)
+       Bryce  --4h15m-->  Las Vegas (LAS)  for evening/next-morning flight</code></pre>
+    </div>
+    <div class="card shadow-sm accent-yellow">
+      <div class="card-body">
+        <p class="mb-0"><strong>Why this route and not all 5 parks:</strong> Arches, Canyonlands and Capitol Reef sit 3-5 hours further east near Moab — genuinely a separate trip. Trying to add them turns this into a windshield tour with no time to actually hike. Zion + Bryce + Highway 12 alone deliver the two most photographed landscapes in Utah at an unhurried pace. See §9 if you have a 5th day to spare for Capitol Reef.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 1. DAY 1 -->
+  <section id="day1" class="mb-5">
+    <h2 class="section-title">1. Day 1 — Fly In &amp; Zion Canyon</h2>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Morning — Las Vegas to Zion</span><span class="time-pill">~2h45m drive</span></div>
+      <div class="step-body">
+        <p class="mb-0">Land at Las Vegas, pick up your rental car, and head northeast on I-15 into Utah. The landscape turns from desert scrub to red sandstone right around the Utah border — a preview of what's coming. Stop in <strong>Springdale</strong>, the small town right at Zion's south entrance, to check into your hotel and grab lunch before heading into the park.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Afternoon — Zion Canyon Scenic Drive</span><span class="time-pill">~2-3 hrs</span></div>
+      <div class="step-body">
+        <p>From April through October, private cars are banned from Zion Canyon Drive — you ride the free, frequent <strong>park shuttle</strong> from the Visitor Center. Ride it end to end once to get oriented, then hop off at:</p>
+        <ul class="mb-0">
+          <li><strong>Zion Human History Museum</strong> — quick overview and the best first views of the canyon walls.</li>
+          <li><strong>Riverside Walk</strong> (from the Temple of Sinawava, last shuttle stop) — an easy, paved 2.2-mile round trip along the Virgin River; this is also where <strong>The Narrows</strong> hike begins if you want to wade in (see §5 for April water-temperature cautions).</li>
+          <li><strong>Emerald Pools</strong> (Zion Lodge stop) — a family-friendly 1.2-3 mile network of trails to waterfalls and pools beneath the cliffs; do this if you skip the deeper Narrows wade.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-green">
+      <div class="card-body">
+        <p class="mb-0"><strong>Don't miss:</strong> sunset from the <strong>Canyon Junction bridge</strong> or the pullout near the Zion Human History Museum — the west-facing canyon walls turn deep orange-red in the last hour of light, and it's a 5-minute stroll from the shuttle, not a hike.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 2. DAY 2 -->
+  <section id="day2" class="mb-5">
+    <h2 class="section-title">2. Day 2 — Zion's Best Hikes</h2>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Option A — Angels Landing</span><span class="time-pill">~4 hrs round trip, 5 miles</span></div>
+      <div class="step-body">
+        <p class="mb-0">Zion's signature hike: switchbacks up "Walter's Wiggles," then a final half-mile along a narrow spine with chain handholds and 1,000-ft drop-offs on both sides to a summit overlooking the whole canyon. <strong>Requires an advance permit</strong> via a lottery — see §6, this needs to be sorted weeks before you fly out, not on arrival. Start at or before sunrise both to beat the heat and because permit time-slots are assigned.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Option B — Observation Point via East Mesa Trail</span><span class="time-pill">~3 hrs round trip, 6.5 miles</span></div>
+      <div class="step-body">
+        <p class="mb-0">No permit needed, and arguably a <em>better</em> view than Angels Landing — you look straight down the length of the canyon, with Angels Landing itself visible far below as a small ridge. The East Mesa approach is flat and easy compared to the older, storm-damaged canyon-floor route. Best pick if you didn't win the Angels Landing lottery.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Afternoon — Kolob Canyons (or The Narrows)</span><span class="time-pill">~1-3 hrs</span></div>
+      <div class="step-body">
+        <p class="mb-0"><strong>Kolob Canyons</strong> is a separate, much quieter entrance off I-15 about 40 minutes from Springdale — a 5-mile scenic drive to a viewpoint over the Finger Canyons, with almost none of Zion Canyon's crowds. Good low-effort way to see a completely different part of the park. Alternatively, if you skipped it Day 1 and conditions allow (see §5), spend the afternoon wading upstream into <strong>The Narrows</strong> from Riverside Walk — even the first mile, wading in the Virgin River between thousand-foot walls, is unlike anything else in the park.</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-red">
+      <div class="card-body">
+        <p class="mb-0"><strong>Caution:</strong> both Angels Landing and Observation Point involve real exposure to heights and, in April, possible ice on the shaded upper switchbacks — check current trail conditions at the Visitor Center before starting either one, and turn back if the surface is icy rather than pushing on.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 3. DAY 3 -->
+  <section id="day3" class="mb-5">
+    <h2 class="section-title">3. Day 3 — Highway 12 to Bryce Canyon</h2>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Morning — the Zion-Mount Carmel Highway</span><span class="time-pill">~30 min through the park</span></div>
+      <div class="step-body">
+        <p class="mb-0">Leave Springdale eastbound on Route 9 and you're immediately climbing a series of switchbacks to the <strong>1.1-mile Zion-Mount Carmel Tunnel</strong>, blasted through solid rock in 1930, with windows carved into the cliff face. Oversized vehicles (RVs, trucks with campers) need a traffic-control escort through the tunnel — check the size restriction before you go if you rented anything larger than a standard car/SUV. This short stretch is one of the most dramatic short drives in the National Park System on its own.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Midday — U.S. 89 &amp; Scenic Byway 12</span><span class="time-pill">~1h15m driving</span></div>
+      <div class="step-body">
+        <p class="mb-0">From the park's east entrance, join US-89 north, then turn onto <strong>Utah Scenic Byway 12</strong> — officially an "All-American Road," one of only a few dozen in the country. Stop at <strong>Red Canyon</strong> (part of Dixie National Forest, right where Highway 12 begins) — smaller-scale but just as vividly red as Bryce itself, with an easy paved bike/walking path directly beside the parking area. It's a perfect stretching-your-legs stop and often much less crowded.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Afternoon &amp; sunset — Bryce Canyon's main viewpoints</span><span class="time-pill">~2-3 hrs</span></div>
+      <div class="step-body">
+        <p class="mb-0">Check into your Bryce-area hotel, then head straight to the park's main amphitheater viewpoints, all connected by an easy paved <strong>Rim Trail</strong>: <strong>Sunrise Point</strong>, <strong>Sunset Point</strong>, <strong>Inspiration Point</strong>, and <strong>Bryce Point</strong> (the widest panorama of the whole amphitheater of hoodoos). Time your visit to Bryce Point or Inspiration Point for sunset — the orange spires light up dramatically as the sun drops, and this is a short walk from parking, not a hike.</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-purple">
+      <div class="card-body">
+        <p class="mb-0"><strong>Bonus, if time allows:</strong> Bryce Canyon sits at ~8,000-9,000 ft elevation, and on a clear April night it's one of the darkest, best stargazing spots in the country — the park regularly hosts astronomy programs. If skies are clear, step back outside after dinner before turning in.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 4. DAY 4 -->
+  <section id="day4" class="mb-5">
+    <h2 class="section-title">4. Day 4 — Sunrise at Bryce, Kodachrome Basin &amp; Departure</h2>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Early morning — Sunrise Point</span><span class="time-pill">~30-45 min</span></div>
+      <div class="step-body">
+        <p class="mb-0">Bryce Canyon's hoodoos are genuinely best at sunrise — the low-angle light rakes across the amphitheater and makes the orange spires glow from the east. <strong>Sunrise Point</strong> is a two-minute walk from its own parking lot, so this costs you almost no extra effort for one of the best views of the whole trip.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Mid-morning — Navajo Loop + Queen's Garden combo</span><span class="time-pill">~1.5-2 hrs, 2.9 miles</span></div>
+      <div class="step-body">
+        <p class="mb-0">The park's classic "combination trail" descends into the amphitheater itself, threading between hoodoos rather than just looking at them from the rim — including <strong>Wall Street</strong>, a narrow slot with switchbacks between towering rock walls. <strong>April caution:</strong> the Navajo Loop's Wall Street side is often closed into spring due to ice/rockfall risk from snowmelt — check at the Visitor Center; if closed, do the gentler <strong>Queen's Garden</strong> trail alone (also from Sunrise Point) or the easy, flat <strong>Mossy Cave Trail</strong> (a short walk to a small waterfall and hoodoos, on Highway 12 just outside the main park entrance) instead.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar"><span class="step-title">Midday — scenic drive to Rainbow/Yovimpa Point</span><span class="time-pill">~1.5-2 hrs round trip</span></div>
+      <div class="step-body">
+        <p class="mb-0">Bryce Canyon's main park road runs 18 miles one-way past a string of viewpoints (Fairview Point, Natural Bridge, Agua Canyon, Ponderosa Point) to <strong>Rainbow Point</strong>/<strong>Yovimpa Point</strong> at the road's end — at over 9,100 ft, this is the highest point in the park, with a genuinely different, forested, high-elevation view south across the Grand Staircase toward Arizona. Each pullout is a 2-minute walk from the car, so you can do the whole drive and hit every viewpoint in under two hours.</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-1"><strong>Optional detour — Kodachrome Basin State Park</strong> (~30 min from Bryce)</p>
+        <p class="mb-0">A different, less-visited landscape: dozens of tall sandstone "sand pipe" spires rising from the desert floor. The Panorama Trail loop (3 miles) or the short Grand Parade / Shakespeare Arch spur trails give you the highlights in under an hour and this park is almost never crowded, even in peak season.</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-blue">
+      <div class="card-body">
+        <p class="mb-0"><strong>Afternoon — drive back to Las Vegas</strong> (~4h15m). Build in a buffer for a fuel/food stop in Hurricane or St. George, UT along the way, and target arriving with at least 2 hours before your flight for rental-car return and TSA at LAS.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 5. APRIL WEATHER -->
+  <section id="april" class="mb-5">
+    <h2 class="section-title">5. April in Utah — Weather, Crowds &amp; Packing List</h2>
+
+    <div class="card shadow-sm accent-yellow mb-4">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead><tr><th>Location</th><th>Elevation</th><th class="num">Typical April high</th><th class="num">Typical April low</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Zion Canyon (Springdale)</td><td class="num">~4,000 ft</td><td class="num">~70°F</td><td class="num">~40°F</td><td>Warm, pleasant days; can still see a passing snow flurry early in the month</td></tr>
+              <tr><td>Bryce Canyon</td><td class="num">~8,000-9,100 ft</td><td class="num">~50°F</td><td class="num">~20-25°F</td><td>Genuinely cold, especially at sunrise; some shaded trail ice is common</td></tr>
+              <tr><td>Las Vegas</td><td class="num">~2,000 ft</td><td class="num">~80°F</td><td class="num">~55°F</td><td>Already warm — a jacket needed only in the evening</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-red mb-4">
+      <div class="card-body">
+        <p class="mb-1"><strong>Cautions specific to April:</strong></p>
+        <ul class="mb-0">
+          <li><strong>The Narrows</strong> — the Virgin River is often running high and cold from snowmelt in April; water can be waist-deep or higher and near-freezing. Only wade in if a local outfitter's current conditions report calls it passable, and rent a drysuit locally rather than going in regular clothes.</li>
+          <li><strong>Bryce trail closures</strong> — the lower loop trails (Navajo Loop's Wall Street side especially) close intermittently through spring for ice and rockfall; always check the visitor center board same-day rather than trusting an old trip report.</li>
+          <li><strong>Temperature swings</strong> — a 40-50°F swing between a Bryce sunrise and a Zion afternoon on the same trip is normal; dress in layers you can shed, not one outfit for the whole day.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-green mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Why April is still a great choice overall:</strong> crowds and lodging prices are meaningfully lower than the May-September peak, wildflowers start blooming at Zion's lower elevations, daytime temperatures in Zion are close to ideal for hiking, and the Zion Canyon shuttle runs on a lighter schedule with shorter lines than summer.</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-purple">
+      <div class="card-body">
+        <p class="mb-1"><strong>Packing list:</strong></p>
+        <ul class="mb-0">
+          <li>Layers: t-shirt + fleece/insulated jacket + a shell for wind, plus a warm hat and gloves for Bryce sunrise</li>
+          <li>Sturdy hiking boots with real traction (for both loose sand and possible icy patches)</li>
+          <li>Reusable water bottles (2L+ per person per hiking day) and sun protection — April sun at elevation is stronger than it feels</li>
+          <li>A physical or downloaded offline trail map — cell service is unreliable inside both parks</li>
+          <li>A headlamp if attempting either sunrise hike in the dark</li>
+        </ul>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 6. PERMITS -->
+  <section id="permits" class="mb-5">
+    <h2 class="section-title">6. Permits, Reservations &amp; Booking Timeline</h2>
+    <div class="card shadow-sm accent-red mb-4">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead><tr><th>What</th><th>How far ahead</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Angels Landing permit</td><td>Seasonal lottery ~2 months out, plus a day-before lottery</td><td>Required for anyone hiking past Scout Lookout; entirely separate from park entry</td></tr>
+              <tr><td>Zion &amp; Bryce lodging</td><td>2-4 months out</td><td>Springdale and the Bryce Canyon area have limited rooms; April is shoulder season but still books up around spring break weeks</td></tr>
+              <tr><td>Zion National Park entry pass / America the Beautiful annual pass</td><td>Buy online or at the gate</td><td>The annual pass ($80) pays for itself covering both parks' entry fees on one trip</td></tr>
+              <tr><td>Rental car</td><td>As early as possible</td><td>Las Vegas rental rates and availability tighten up around holiday weekends</td></tr>
+              <tr><td>Narrows drysuit/gear rental (Springdale outfitters)</td><td>Reserve a day or two ahead</td><td>Only needed if attempting the wade; check current river conditions first</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 7. STAYS -->
+  <section id="stays" class="mb-5">
+    <h2 class="section-title">7. Where to Stay Each Night</h2>
+    <div class="card shadow-sm accent-blue">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead><tr><th>Night</th><th>Base town</th><th>Why here</th></tr></thead>
+            <tbody>
+              <tr><td>Night 1 &amp; 2</td><td><strong>Springdale, UT</strong></td><td>Sits directly at Zion's south/pedestrian entrance — walk or hop the free town shuttle straight into the park, no driving needed once you've checked in</td></tr>
+              <tr><td>Night 3</td><td><strong>Bryce Canyon City / Tropic, UT</strong></td><td>A few minutes from the park entrance; Tropic is a slightly cheaper, quieter alternative with the same drive time</td></tr>
+              <tr><td>Night 4</td><td><strong>Las Vegas (or fly out same evening)</strong></td><td>Depending on flight time — an evening flight avoids paying for a 4th hotel night entirely</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 8. DISTANCES -->
+  <section id="distances" class="mb-5">
+    <h2 class="section-title">8. Driving Distances &amp; Times</h2>
+    <div class="card shadow-sm accent-yellow">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead><tr><th>Leg</th><th class="num">Distance</th><th class="num">Drive time</th></tr></thead>
+            <tbody>
+              <tr><td>Las Vegas (LAS) → Springdale / Zion</td><td class="num">~165 mi</td><td class="num">~2h45m</td></tr>
+              <tr><td>Springdale → Kolob Canyons viewpoint</td><td class="num">~40 mi</td><td class="num">~45 min</td></tr>
+              <tr><td>Zion (east entrance) → Bryce Canyon (via Hwy 89 + Scenic Byway 12)</td><td class="num">~72 mi</td><td class="num">~1h45m</td></tr>
+              <tr><td>Bryce Canyon → Kodachrome Basin State Park</td><td class="num">~24 mi</td><td class="num">~35 min</td></tr>
+              <tr><td>Bryce Canyon → Las Vegas (LAS)</td><td class="num">~260 mi</td><td class="num">~4h15m</td></tr>
+              <tr><td><strong>Total trip driving</strong></td><td class="num"><strong>~460-500 mi</strong></td><td class="num"><strong>~9-10 hrs over 4 days</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 9. BONUS -->
+  <section id="bonus" class="mb-5">
+    <h2 class="section-title">9. Bonus: If You Have One More Day</h2>
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-0">Add a 5th day and continue east on Scenic Byway 12 (~2h15m from Bryce) to <strong>Capitol Reef National Park</strong> — dramatically less crowded than Zion or Bryce, with the historic Fruita orchard district, the easy Hickman Bridge natural-arch hike, and Capitol Gorge's ancient petroglyph panel. This turns the loop into a one-way drive ending near Torrey, UT, roughly 3.5 hours from Salt Lake City for your return flight instead of backtracking to Las Vegas — worth it only if your itinerary allows an open-jaw flight (fly into LAS, home from SLC).</p>
+      </div>
+    </div>
+    <div class="card shadow-sm accent-blue">
+      <div class="card-body">
+        <p class="mb-0">If you'd rather stay closer to Las Vegas, a lower-effort 5th-day add-on is the <strong>Grand Canyon's North Rim</strong> (seasonal — typically closed until mid-May, so check status before planning) or a half-day at <strong>Valley of Fire State Park</strong>, only 50 minutes from Las Vegas itself and open year-round — genuinely striking red-sandstone scenery if you land with time before your flight home rather than after it.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 10. KEY TAKEAWAYS -->
+  <section id="takeaways" class="mb-5">
+    <h2 class="section-title">10. Key Takeaways</h2>
+    <div class="card shadow-sm accent-green">
+      <div class="card-body">
+        <ul class="mb-0">
+          <li><strong>Fly into Las Vegas, not Salt Lake City</strong> — it cuts roughly 2 hours off your first driving day and gets you into Zion the same afternoon you land.</li>
+          <li><strong>Two full days in Zion is the right ratio</strong> against one day in Bryce — Zion's canyon-floor hikes take longer and the park is simply bigger; Bryce's highlights are more concentrated around one amphitheater.</li>
+          <li><strong>Book the Angels Landing lottery and your Springdale/Bryce lodging weeks ahead</strong> — these are the two pieces of this trip that can't be improvised on arrival.</li>
+          <li><strong>April means real cold at Bryce's elevation and real cold water in the Narrows</strong> — pack for both extremes and check trail/river conditions same-day rather than assuming based on Zion's warmer valley floor.</li>
+          <li><strong>The Highway 12 drive between the parks is a destination in itself</strong>, not just a transit day — build in time for Red Canyon and don't treat it as a driving obligation to rush through.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+</main>
+
+<footer class="text-white py-4 mt-5">
+  <div class="container text-center small">
+    Fun Travel Ideas &middot; <a href="contactus.html" class="text-white text-decoration-underline">Contact Us</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/build/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>

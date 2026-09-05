@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI Blog</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  :root{
+    --biz-blue:#0d6efd;
+    --biz-blue-dark:#084298;
+    --nav-blue:#04264d;
+    --nav-yellow:#ffd60a;
+    --biz-yellow:#ffc107;
+  }
+  body{ background:#f7f8fa; margin:0; }
+
+  /* Sticky top nav: deep blue background, yellow font */
+  .topnav{
+    position:sticky; top:0; z-index:1030;
+    background:var(--nav-blue);
+    color:var(--nav-yellow);
+    padding:.9rem 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.25);
+  }
+  .topnav .brand{
+    display:inline-flex; align-items:center;
+    font-weight:700; font-size:2.2rem; letter-spacing:.03em;
+    color:var(--nav-yellow); text-decoration:none;
+  }
+  .topnav .brand-logo{ height:44px; width:auto; display:block; }
+  .topnav .tagline{
+    font-weight:600; font-size:1.05rem; color:var(--nav-yellow);
+    letter-spacing:.15em; word-spacing:.6em; font-style:italic;
+  }
+  @media (max-width:576px){
+    .topnav{ flex-direction:column; text-align:center; gap:.15rem; padding:.75rem 1rem; }
+  }
+
+  .hero{
+    background:#f7f8fa;
+    padding-top:2rem;
+    padding-bottom:2rem;
+  }
+  .hero-subtitle{
+    font-size:1.25rem;
+    background:#5BF527;
+    color:#000;
+    padding:1rem 1.25rem;
+    border-radius:.375rem;
+  }
+  @media (max-width:768px){
+    .hero-subtitle{ font-size:1rem; }
+  }
+  @media (max-width:480px){
+    .hero-subtitle{ font-size:.85rem; }
+  }
+  .section-title{
+    display:inline-flex; align-items:center; gap:.6rem;
+    padding-bottom:.4rem; border-bottom:3px solid var(--biz-blue);
+    margin-bottom:1.25rem;
+  }
+  .plans-table{ --bs-table-border-color:var(--nav-blue); border:1px solid var(--nav-blue); }
+  .plans-table thead th{ background:#04264d; color:#fff; border-color:var(--nav-blue); }
+  .plans-table tbody td{ border-color:var(--nav-blue); }
+  .plans-table tbody tr:hover{ background:#eef3fb; }
+  .plan-link{ font-weight:700; text-decoration:none; }
+  .plan-link:hover{ text-decoration:underline; }
+  footer{ background:var(--nav-blue); }
+  footer a{ color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP NAV -->
+<div class="topnav">
+  <a class="brand" href="index.html"><img class="brand-logo" src="logo.svg" alt="RAG Champ"></a>
+  <div class="tagline">Agentic AI Blog</div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container text-center">
+    <p class="lead mb-0 fst-italic fw-bold hero-subtitle">The focus of this blog is to explore Agentic AI topics, to build apps using Claude Code, and to use Claude Code for travel research.</p>
+  </div>
+</header>
+
+<main class="container mb-5">
+
+  <section id="posts">
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered align-middle mb-0 plans-table">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center fst-italic" style="background:yellow; color:black;">BLOG POSTS</th>
+              </tr>
+              <tr>
+                <th style="width:10%" class="text-center">Post#</th>
+                <th>Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">1</td>
+                <td>
+                  <a class="plan-link" href="BLOG-1-CODING-AGENTS-FRAMEWORK.html" target="_blank" rel="noopener">
+                    How the Coding Agents Framework Works
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fun-travel" class="mt-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered align-middle mb-0 plans-table">
+            <thead>
+              <tr>
+                <th colspan="2" class="text-center fst-italic" style="background:yellow; color:black;">FUN TRAVEL</th>
+              </tr>
+              <tr>
+                <th style="width:10%" class="text-center">#</th>
+                <th>Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">1</td>
+                <td>
+                  <a class="plan-link" href="Travel-UTAH.html" target="_blank" rel="noopener">
+                    A 4-Day Utah Road Trip: Zion, Bryce Canyon &amp; the Red-Rock Byway
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="text-white py-4 mt-5">
+  <div class="container text-center small">
+    Agentic AI Blog &middot; <a href="contactus.html" class="text-white text-decoration-underline">Contact Us</a>
+  </div>
+</footer>
+
+</body>
+</html>
