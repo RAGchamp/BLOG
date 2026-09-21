@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Scientist vs. MLOps Engineer — Roles, Responsibilities &amp; How They Build AI/ML Systems Together</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/vs2015.min.css">
+<style>
+  :root{
+    --biz-blue:#0d6efd;
+    --biz-blue-light:#6ea8fe;
+    --biz-blue-dark:#084298;
+    --biz-yellow:#ffc107;
+    --biz-red:#dc3545;
+    --biz-green:#198754;
+    --biz-purple:#6f42c1;
+    --nav-blue:#04264d;
+    --nav-yellow:#ffd60a;
+    --azure:#0078d4;
+  }
+  body{ background:#f7f8fa; margin:0; }
+
+  /* Sticky top nav */
+  .topnav{
+    position:sticky; top:0; z-index:1030;
+    background:var(--nav-blue);
+    color:var(--nav-yellow);
+    padding:.9rem 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.25);
+  }
+  .topnav .brand{ display:inline-flex; align-items:center; text-decoration:none; }
+  .topnav .brand-logo{ height:44px; width:auto; display:block; }
+  .topnav .tagline{
+    font-weight:600; font-size:1.05rem; color:var(--nav-yellow);
+    letter-spacing:.15em; word-spacing:.6em; font-style:italic;
+  }
+  @media (max-width:576px){
+    .topnav{ flex-direction:column; text-align:center; gap:.4rem; padding:.75rem 1rem; }
+  }
+
+  section[id]{ scroll-margin-top:84px; }
+  html{ scroll-behavior:smooth; }
+
+  .hero{
+    background:linear-gradient(120deg, #04264d 0%, #0d6efd 55%, #0078d4 100%);
+    color:#fff;
+  }
+  .hero code{ color:#fff; background:rgba(255,255,255,.15); }
+  .accent-blue{ border-left:5px solid var(--biz-blue); }
+  .accent-green{ border-left:5px solid var(--biz-green); }
+  .accent-red{ border-left:5px solid var(--biz-red); }
+  .accent-yellow{ border-left:5px solid var(--biz-yellow); }
+  .accent-purple{ border-left:5px solid var(--biz-purple); }
+
+  .section-title{
+    display:inline-flex; align-items:center; gap:.6rem;
+    padding-bottom:.4rem; border-bottom:3px solid var(--azure);
+    margin-bottom:1.25rem;
+  }
+  .toc-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.8rem; height:1.8rem; border-radius:50%;
+    background:var(--biz-yellow); color:#2b2b2b; font-weight:700; font-size:.85rem;
+    margin-right:.5rem; flex:none;
+  }
+  .toc-list a{ text-decoration:none; color:#212529; }
+  .toc-list a:hover{ color:var(--azure); text-decoration:underline; }
+  .toc-item{ display:flex; align-items:center; padding:.4rem 0; }
+  .back-to-top{ font-size:.85rem; }
+  .color-key-dot{ width:.9rem; height:.9rem; border-radius:50%; display:inline-block; margin-right:.4rem; }
+  table thead th{ background:#eef3fb; }
+
+  /* Numbers / stat callout windows */
+  .code-window{ background:#084298; border-radius:.5rem; overflow:hidden; margin:1rem 0 1.5rem; box-shadow:0 .25rem .75rem rgba(0,0,0,.3); }
+  .code-window .code-titlebar{
+    background:#323233; color:#cccccc; padding:.45rem .9rem; font-size:.8rem;
+    display:flex; align-items:center; gap:.4rem; font-family:'Segoe UI',Roboto,sans-serif;
+  }
+  .code-window .dot{ width:.7rem; height:.7rem; border-radius:50%; display:inline-block; }
+  .dot-red{ background:#ff5f56; } .dot-yellow{ background:#ffbd2e; } .dot-green{ background:#27c93f; }
+  .code-window .code-filename{ margin-left:.5rem; opacity:.85; }
+  .code-window pre{ margin:0 !important; padding:1rem 1.25rem !important; background:#084298 !important; overflow-x:auto; }
+  .code-window code, .code-window code *{ font-family:'Fira Code',Consolas,Monaco,monospace; font-size:.85rem; background:transparent !important; color:#ffffff !important; font-weight:700 !important; text-shadow:none; }
+
+  .badge-tool{ background:#04264d; color:var(--nav-yellow); }
+  .badge-ds{ background:var(--biz-purple); color:#fff; }
+  .badge-mlops{ background:var(--azure); color:#fff; }
+  .badge-both{ background:var(--biz-green); color:#fff; }
+
+  /* Step-by-step walkthrough boxes */
+  .step-box{
+    background:#e9ecef;
+    border-radius:.5rem;
+    overflow:hidden;
+    margin:0 0 1.25rem;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.12);
+  }
+  .step-box .step-bar{
+    background:var(--nav-blue);
+    color:#5BF527;
+    font-weight:700;
+    padding:.5rem 1.1rem;
+    font-size:.95rem;
+    letter-spacing:.02em;
+  }
+  .step-box .step-bar .step-title{ font-weight:700; }
+  .step-box .step-body{ padding:1rem 1.25rem; }
+  .step-box .step-body p:last-child{ margin-bottom:0; }
+  .step-box .step-body ul:last-child, .step-box .step-body ol:last-child{ margin-bottom:0; }
+
+  .checklist{ list-style:none; padding-left:0; }
+  .checklist li{ padding:.15rem 0 .15rem 1.7rem; position:relative; }
+  .checklist li::before{
+    content:"\2610"; position:absolute; left:0; top:0;
+    font-size:1.1rem; color:var(--azure); line-height:1.4;
+  }
+
+  main pre{ border-radius:.5rem; margin:0 0 1rem; overflow-x:auto; box-shadow:0 .15rem .5rem rgba(0,0,0,.18); }
+  main pre code.hljs{ padding:1rem 1.25rem; border-radius:.5rem; font-size:.82rem; line-height:1.55; font-family:'Fira Code',Consolas,Monaco,monospace; }
+  .diagram-pre{ background:#04264d; color:#e6edf3; border-radius:.5rem; padding:1.1rem 1.25rem; overflow-x:auto; font-family:'Fira Code',Consolas,Monaco,monospace; font-size:.8rem; line-height:1.5; box-shadow:0 .15rem .5rem rgba(0,0,0,.25); }
+  .lib-table{ font-size:.85rem; }
+  .lib-table td, .lib-table th{ vertical-align:top; }
+  .lib-table td:first-child{ white-space:nowrap; }
+
+  .role-card{ height:100%; }
+  .role-card .role-head{ font-weight:700; font-size:1.15rem; padding:.6rem 1rem; border-radius:.5rem .5rem 0 0; }
+  .role-head-ds{ background:var(--biz-purple); color:#fff; }
+  .role-head-mlops{ background:var(--azure); color:#fff; }
+
+  footer{ background:var(--nav-blue); }
+  footer a{ color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP NAV -->
+<div class="topnav">
+  <span class="brand"><img class="brand-logo" src="logo.svg" alt="RAG Champ"></span>
+  <div class="tagline">MLOPS PLAYBOOK</div>
+</div>
+
+<!-- HERO -->
+<header class="hero py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-9">
+        <span class="badge rounded-pill bg-warning text-dark mb-3">Team Design &middot; <code style="background:rgba(0,0,0,.15);">Data Science + MLOps</code> &middot; 18 Sep 2026</span>
+        <h1 class="display-6 fw-bold">Data Scientist vs. MLOps Engineer</h1>
+        <p class="lead mb-0">Two roles, one ML lifecycle. This is a working reference for how <strong>Data Scientists</strong> and <strong>MLOps Engineers</strong> divide responsibility, hand off work, and jointly <strong>build, operationalize, maintain, and monitor</strong> AI/ML models in production &mdash; who owns what, where the lines blur, and what a healthy handoff looks like.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-5">
+
+  <!-- COLOR KEY -->
+  <div class="mb-5">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body py-3">
+        <div class="row g-2 small text-center text-md-start align-items-center">
+          <div class="col-6 col-md-3"><span class="badge badge-ds">DS</span>&nbsp;Data Scientist owns this</div>
+          <div class="col-6 col-md-3"><span class="badge badge-mlops">MLOps</span>&nbsp;MLOps Engineer owns this</div>
+          <div class="col-6 col-md-3"><span class="badge badge-both">Shared</span>&nbsp;Joint / handoff point</div>
+          <div class="col-6 col-md-3"><span class="color-key-dot" style="background:var(--biz-red);"></span>Red &mdash; risk / friction point</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <section id="toc" class="mb-5">
+    <h2 class="section-title">Table of Contents</h2>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="row toc-list">
+          <div class="col-md-6">
+            <div class="toc-item"><span class="toc-num">0</span><a href="#picture">The Partnership in One Picture</a></div>
+            <div class="toc-item"><span class="toc-num">1</span><a href="#overview">Two Roles, One Lifecycle &mdash; Overview</a></div>
+            <div class="toc-item"><span class="toc-num">2</span><a href="#ds-role">The Data Scientist &mdash; Role &amp; Responsibilities</a></div>
+            <div class="toc-item"><span class="toc-num">3</span><a href="#mlops-role">The MLOps Engineer &mdash; Role &amp; Responsibilities</a></div>
+            <div class="toc-item"><span class="toc-num">4</span><a href="#comparison">Side-by-Side Comparison</a></div>
+            <div class="toc-item"><span class="toc-num">5</span><a href="#build">Phase 1 &mdash; Build</a></div>
+            <div class="toc-item"><span class="toc-num">6</span><a href="#operationalize">Phase 2 &mdash; Operationalize</a></div>
+            <div class="toc-item"><span class="toc-num">7</span><a href="#maintain">Phase 3 &mdash; Maintain</a></div>
+          </div>
+          <div class="col-md-6">
+            <div class="toc-item"><span class="toc-num">8</span><a href="#monitor">Phase 4 &mdash; Monitor</a></div>
+            <div class="toc-item"><span class="toc-num">9</span><a href="#feedbackloop">Automation, Testing &amp; the Champion/Challenger Feedback Loop</a></div>
+            <div class="toc-item"><span class="toc-num">10</span><a href="#tooling">Shared Tooling &amp; Handoff Artifacts</a></div>
+            <div class="toc-item"><span class="toc-num">11</span><a href="#platforms">Platform Deep Dive &mdash; Databricks &amp; Snowflake</a></div>
+            <div class="toc-item"><span class="toc-num">12</span><a href="#grayzones">Where Responsibilities Overlap</a></div>
+            <div class="toc-item"><span class="toc-num">13</span><a href="#antipatterns">Common Anti-Patterns &amp; Friction</a></div>
+            <div class="toc-item"><span class="toc-num">14</span><a href="#raci">RACI Matrix Across the Lifecycle</a></div>
+            <div class="toc-item"><span class="toc-num">15</span><a href="#dayinlife">A Day in the Life &mdash; Example Incident</a></div>
+            <div class="toc-item"><span class="toc-num">16</span><a href="#checklist">Checklist for a Healthy Handoff</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 0. THE PARTNERSHIP IN ONE PICTURE -->
+  <section id="picture" class="mb-5">
+    <h2 class="section-title">0. The Partnership in One Picture</h2>
+
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-0">A model that only lives in a notebook has delivered <strong>zero</strong> business value. A pipeline that runs reliably but serves a bad model has also delivered zero value. Neither role can produce the outcome alone &mdash; the <strong>Data Scientist</strong> is accountable for whether the model is <em>right</em>; the <strong>MLOps Engineer</strong> is accountable for whether the model <em>runs</em>, reliably, at scale, safely, and stays that way.</p>
+      </div>
+    </div>
+
+    <pre class="diagram-pre">   DATA SCIENTIST                              MLOPS ENGINEER
+   &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;                          &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+   &#9474; Problem framing &amp;    &#9474;                          &#9474; Infra as code,        &#9474;
+   &#9474; success metric       &#9474;                          &#9474; environments           &#9474;
+   &#9474; Data exploration/EDA &#9474;                          &#9474; Data/feature platform  &#9474;
+   &#9474; Feature engineering  &#9474;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9474; (feature store, data     &#9474;
+   &#9474; Model selection      &#9474;   1. BUILD               &#9474; versioning)            &#9474;
+   &#9474; Training &amp; tuning     &#9474;   (joint)                &#9474; Experiment tracking    &#9474;
+   &#9474; Offline evaluation   &#9474;                          &#9474; infra (MLflow, W&amp;B)    &#9474;
+   &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;                          &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+            &#9474;                                                    &#9474;
+            &#9660;         &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;         &#9660;
+            &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660; 2. OPERATIONALIZE   &#9474;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+                     &#9474; Model registry &rarr; CI/CD &#9474;
+                     &#9474; Package (container) &#9474;   (MLOps-led,
+                     &#9474; Deploy (batch/online) &#9474;    DS validates)
+                     &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9492;
+                     &#9474;                             &#9474;
+              &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;              &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+              &#9474; 3. MONITOR    &#9474;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660;&#9474; 4. MAINTAIN         &#9474;
+              &#9474; Drift, quality &#9474;              &#9474; Retrain trigger,    &#9474;
+              &#9474; System health  &#9474;&#9656;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660;&#9474; rollback, versions  &#9474;
+              &#9474; (Shared:       &#9474;              &#9474; (MLOps-led,         &#9474;
+              &#9474;  MLOps builds, &#9474;              &#9474;  DS re-validates)    &#9474;
+              &#9474;  DS interprets)&#9474;              &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+              &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;                       &#9474;
+                     &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; loops back into BUILD &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660;</pre>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 1. OVERVIEW -->
+  <section id="overview" class="mb-5">
+    <h2 class="section-title">1. Two Roles, One Lifecycle &mdash; Overview</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0">Think of it as <strong>research vs. engineering applied to the same artifact</strong>: the Data Scientist runs the scientific process that produces a model worth shipping; the MLOps Engineer runs the software/infrastructure process that turns that model into a reliable, observable, governed production service. Neither is "more senior" &mdash; they are different disciplines with different failure modes, and a mature ML org treats the boundary between them as a well-defined, tooled handoff rather than a wall.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">1.1 <span class="step-title">&mdash; Why the split exists</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>A model is <strong>two things bolted together</strong>: a statistical artifact (weights, a decision boundary, a set of learned parameters) and a piece of software that must run under load, fail gracefully, and be observable. Optimizing for one without the other is how "it worked in the notebook" becomes an incident.</li>
+          <li>The skills barely overlap: <strong>DS</strong> needs statistics, domain knowledge, and experimentation discipline; <strong>MLOps</strong> needs distributed systems, CI/CD, Kubernetes/cloud infra, and SRE-style operational rigor. Very few people are excellent at both at scale.</li>
+          <li>The split also creates <strong>accountability</strong>: when accuracy degrades, that's a DS problem to diagnose; when the endpoint is down or slow, that's an MLOps problem to fix &mdash; without a split, "the model is broken" becomes nobody's clearly owned page.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">1.2 <span class="step-title">&mdash; The four phases this doc uses</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Phase</th><th>Question it answers</th><th>Primary owner</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Build</strong></td><td>Is there a model that solves the business problem well enough to ship?</td><td>Data Scientist (MLOps provides the platform)</td></tr>
+              <tr><td><strong>Operationalize</strong></td><td>Can this model be packaged, deployed, and served reliably at the required scale/latency?</td><td>MLOps Engineer (DS validates behavior)</td></tr>
+              <tr><td><strong>Maintain</strong></td><td>Does the model keep working as data, code, and the world change?</td><td>MLOps Engineer runs it; Data Scientist decides what "working" means</td></tr>
+              <tr><td><strong>Monitor</strong></td><td>How do we know, continuously, whether it's still working?</td><td>Shared &mdash; MLOps instruments it, Data Scientist interprets it</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 2. DS ROLE -->
+  <section id="ds-role" class="mb-5">
+    <h2 class="section-title">2. The Data Scientist &mdash; Role &amp; Responsibilities</h2>
+
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-0">The Data Scientist is accountable for <strong>whether the model is correct and valuable</strong> &mdash; translating a business question into a measurable ML problem, and finding/validating the best solution to it.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">2.1 <span class="step-title">&mdash; Core responsibilities</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li><strong>Problem framing:</strong> convert a vague business ask ("reduce churn") into a well-posed ML problem (a target label, a time horizon, a success metric, and a decision the prediction will drive).</li>
+          <li><strong>Data exploration &amp; quality assessment:</strong> understand the available data, its coverage, biases, leakage risks, and gaps before any modeling starts.</li>
+          <li><strong>Feature engineering:</strong> design and validate the signals the model will learn from, including their business meaning and stability over time.</li>
+          <li><strong>Model selection &amp; training:</strong> choose candidate algorithms/architectures, tune hyperparameters, and train under a disciplined experiment-tracking process.</li>
+          <li><strong>Offline evaluation:</strong> hold-out and cross-validation metrics, error analysis by segment, fairness/bias checks, and comparison against a baseline (including "no model" / current heuristic).</li>
+          <li><strong>Statistical rigor:</strong> confidence intervals, significance testing for A/B results, and honesty about uncertainty &mdash; not just a single headline metric.</li>
+          <li><strong>Business translation:</strong> explain what the model does and doesn't do, in terms stakeholders can act on, and set expectations about accuracy vs. cost/latency trade-offs.</li>
+          <li><strong>Ongoing model quality ownership:</strong> defines what "still good" means (the metric and its threshold) so monitoring and retraining have a target to check against.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">2.2 <span class="step-title">&mdash; What a Data Scientist is <em>not</em> expected to own</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Provisioning cloud infrastructure, Kubernetes clusters, or networking.</li>
+          <li>Writing production-grade serving code, load balancing, or autoscaling policy.</li>
+          <li>Building and maintaining the CI/CD pipeline that ships the model.</li>
+          <li>24/7 on-call for the serving endpoint being up or down.</li>
+          <li>Security hardening of the runtime environment, secrets management, or network policy.</li>
+        </ul>
+        <p class="mt-2 mb-0 small text-muted">In smaller teams a DS may do some of this out of necessity &mdash; but as the org matures, these move to MLOps so DS time goes back into modeling.</p>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 3. MLOPS ROLE -->
+  <section id="mlops-role" class="mb-5">
+    <h2 class="section-title">3. The MLOps Engineer &mdash; Role &amp; Responsibilities</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0">The MLOps Engineer is accountable for <strong>whether the model runs</strong> &mdash; reliably, reproducibly, at the required scale, with the guardrails a production system needs, for as long as it stays in production.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">3.1 <span class="step-title">&mdash; Core responsibilities</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li><strong>Platform &amp; tooling:</strong> stand up and maintain the experiment-tracking system (MLflow/W&amp;B), the feature store, the model registry, and shared compute (GPU/CPU clusters, notebooks-as-a-service) that Data Scientists build on.</li>
+          <li><strong>Reproducible pipelines:</strong> turn a notebook or training script into a versioned, parameterized, re-runnable pipeline (data &rarr; features &rarr; train &rarr; evaluate &rarr; register), typically as a DAG (Airflow/Kubeflow/Azure ML pipelines/SageMaker Pipelines).</li>
+          <li><strong>Packaging &amp; deployment:</strong> containerize the model and its serving code, define the serving pattern (real-time API, batch job, streaming), and deploy it via CI/CD with proper versioning and rollback.</li>
+          <li><strong>Infrastructure as code:</strong> provision and manage the compute, networking, storage, and identity the ML system runs on, following the same IaC/GitOps discipline as any other production service.</li>
+          <li><strong>CI/CD for ML:</strong> automated testing (schema, unit, integration), automated retraining triggers, model registry promotion gates, canary/shadow/blue-green rollout strategies for new model versions.</li>
+          <li><strong>Observability:</strong> instrument latency, throughput, error rate, resource utilization, and data/prediction pipelines for drift signals; build the dashboards and alerts on top of them.</li>
+          <li><strong>Reliability &amp; on-call:</strong> SLOs for the serving endpoint, incident response, capacity planning, disaster recovery, and rollback procedures.</li>
+          <li><strong>Governance &amp; security:</strong> access control to models/data, secrets management, audit trails of what model version served which prediction, and compliance requirements (data residency, PII handling, model cards/documentation).</li>
+          <li><strong>Cost management:</strong> right-sizing training and inference infrastructure, autoscaling policy, and spend visibility per model/team.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">3.2 <span class="step-title">&mdash; What an MLOps Engineer is <em>not</em> expected to own</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Choosing the modeling approach, feature set, or hyperparameters.</li>
+          <li>Deciding whether an accuracy/precision/recall number is "good enough" for the business.</li>
+          <li>Interpreting model errors in domain terms (why the model is wrong on this segment).</li>
+          <li>Statistical design of experiments/A-B tests (though they build the infra to run them).</li>
+        </ul>
+        <p class="mt-2 mb-0 small text-muted">MLOps can flag <em>that</em> a metric moved (via monitoring); only DS can say <em>whether that matters</em> and what to do about it.</p>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 4. COMPARISON -->
+  <section id="comparison" class="mb-5">
+    <h2 class="section-title">4. Side-by-Side Comparison</h2>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm role-card">
+          <div class="role-head role-head-ds">Data Scientist</div>
+          <div class="card-body">
+            <p class="mb-1"><strong>Mindset:</strong> scientist / researcher</p>
+            <p class="mb-1"><strong>Optimizes for:</strong> model quality &amp; business impact</p>
+            <p class="mb-1"><strong>Primary tools:</strong> Jupyter, pandas, scikit-learn, PyTorch/TensorFlow, SQL, statistics libraries</p>
+            <p class="mb-1"><strong>Unit of work:</strong> an experiment</p>
+            <p class="mb-1"><strong>Success looks like:</strong> a validated model that beats the baseline on the agreed metric</p>
+            <p class="mb-0"><strong>Failure looks like:</strong> the model is biased, overfit, or doesn't move the business metric</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card shadow-sm role-card">
+          <div class="role-head role-head-mlops">MLOps Engineer</div>
+          <div class="card-body">
+            <p class="mb-1"><strong>Mindset:</strong> platform / site-reliability engineer</p>
+            <p class="mb-1"><strong>Optimizes for:</strong> reliability, reproducibility, scale, cost</p>
+            <p class="mb-1"><strong>Primary tools:</strong> Docker/Kubernetes, Terraform/Bicep, CI/CD (GitHub Actions/Jenkins/Azure DevOps), MLflow, Airflow/Kubeflow, Prometheus/Grafana</p>
+            <p class="mb-1"><strong>Unit of work:</strong> a pipeline run / a deployment</p>
+            <p class="mb-1"><strong>Success looks like:</strong> the model serves predictions within SLA, every time, with a clean audit trail</p>
+            <p class="mb-0"><strong>Failure looks like:</strong> the endpoint is down, slow, unreproducible, or ungoverned</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">4.1 <span class="step-title">&mdash; Responsibility matrix by activity</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Activity</th><th>Data Scientist</th><th>MLOps Engineer</th></tr></thead>
+            <tbody>
+              <tr><td>Define success metric</td><td><span class="badge badge-ds">Owns</span></td><td>&mdash;</td></tr>
+              <tr><td>Explore &amp; clean data</td><td><span class="badge badge-ds">Owns</span></td><td>Provides access/tooling</td></tr>
+              <tr><td>Build the feature/data platform</td><td>Consumes</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+              <tr><td>Train &amp; tune models</td><td><span class="badge badge-ds">Owns</span></td><td>Provides compute</td></tr>
+              <tr><td>Track experiments</td><td>Uses the tool</td><td><span class="badge badge-mlops">Owns the platform</span></td></tr>
+              <tr><td>Offline evaluation &amp; sign-off</td><td><span class="badge badge-ds">Owns</span></td><td>&mdash;</td></tr>
+              <tr><td>Convert notebook &rarr; pipeline</td><td>Provides the logic</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+              <tr><td>Containerize &amp; deploy</td><td>&mdash;</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+              <tr><td>Model registry &amp; versioning</td><td>Registers candidates</td><td><span class="badge badge-mlops">Owns the system</span></td></tr>
+              <tr><td>CI/CD for training &amp; serving</td><td>&mdash;</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+              <tr><td>Online A/B / canary evaluation</td><td>Designs &amp; interprets</td><td>Runs the mechanism</td></tr>
+              <tr><td>Infra scaling, cost, reliability</td><td>&mdash;</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+              <tr><td>Data &amp; concept drift detection</td><td>Defines what to check</td><td><span class="badge badge-mlops">Builds &amp; runs</span></td></tr>
+              <tr><td>Interpret drift/quality alerts</td><td><span class="badge badge-ds">Owns</span></td><td>Surfaces the alert</td></tr>
+              <tr><td>Decide to retrain vs. roll back</td><td><span class="badge badge-both">Joint</span></td><td><span class="badge badge-both">Joint</span></td></tr>
+              <tr><td>Incident response (endpoint down)</td><td>&mdash;</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+              <tr><td>Model documentation / model card</td><td><span class="badge badge-ds">Owns content</span></td><td>Owns storage/versioning</td></tr>
+              <tr><td>Access control &amp; compliance</td><td>&mdash;</td><td><span class="badge badge-mlops">Owns</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 5. BUILD -->
+  <section id="build" class="mb-5">
+    <h2 class="section-title">5. Phase 1 &mdash; Build</h2>
+
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Goal:</strong> produce a model that is demonstrably good enough to be worth operationalizing. This phase is <strong>DS-led</strong>, running on a platform MLOps provides and maintains.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.1 <span class="step-title">&mdash; What the Data Scientist does</span></div>
+      <div class="step-body">
+        <ol class="mb-0">
+          <li>Frame the problem: target variable, prediction horizon, decision the model informs, and the metric that will define success (e.g. AUC, MAE, precision@k) tied to a business KPI.</li>
+          <li>Explore the data: distributions, missingness, label leakage, class imbalance, temporal effects.</li>
+          <li>Engineer and validate features; check for train/serve skew risk early (a feature computable offline but not at inference time is a dead end).</li>
+          <li>Train multiple candidate models, tracking every run (params, data version, code version, metrics) in the experiment tracker.</li>
+          <li>Evaluate offline: hold-out performance, segment-level error analysis, fairness/bias checks, comparison to the current baseline/heuristic.</li>
+          <li>Package the winning approach as a clear, reproducible training recipe (script or notebook with pinned dependencies and data references) and hand it off with an evaluation report.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.2 <span class="step-title">&mdash; What the MLOps Engineer provides</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Self-service, governed access to training data and compute (notebooks, GPU pools, Spark/Databricks clusters).</li>
+          <li>An experiment-tracking system (MLflow, Weights &amp; Biases) so every run is comparable and auditable.</li>
+          <li>A feature store so features are computed once, consistently, for both training and serving &mdash; the single biggest lever against train/serve skew.</li>
+          <li>Data versioning (DVC, Delta Lake, lakeFS) so a training run can always be traced back to the exact data it used.</li>
+          <li>Guardrails: environment reproducibility (pinned images/lockfiles), so "works on my machine" doesn't become "works nowhere else."</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card accent-red shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small"><strong>Hand-off gate:</strong> a model only leaves Build when it has a registered version, a documented evaluation report, known input/output schema, and a named DS owner who signs off on "this is good enough to ship."</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 6. OPERATIONALIZE -->
+  <section id="operationalize" class="mb-5">
+    <h2 class="section-title">6. Phase 2 &mdash; Operationalize</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Goal:</strong> turn the validated model into a running production service. This phase is <strong>MLOps-led</strong>; the Data Scientist stays involved to validate that production behavior matches offline expectations.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">6.1 <span class="step-title">&mdash; What the MLOps Engineer does</span></div>
+      <div class="step-body">
+        <ol class="mb-0">
+          <li>Pull the model artifact from the registry and wrap it in serving code (a REST/gRPC endpoint, a batch job, or a streaming consumer, depending on the use case's latency needs).</li>
+          <li>Containerize it, following the same supply-chain discipline as any production image: pinned base image, vulnerability scan, SBOM, signed and built only in CI.</li>
+          <li>Choose and implement the serving pattern:
+            <ul class="checklist">
+              <li><strong>Real-time/online:</strong> low-latency API behind autoscaling (Kubernetes + HPA, or a managed endpoint like Azure ML/SageMaker/Vertex AI endpoints).</li>
+              <li><strong>Batch:</strong> scheduled scoring job writing predictions to a table/warehouse.</li>
+              <li><strong>Streaming:</strong> a consumer scoring events off a queue/topic (Kafka/Event Hubs) in near-real-time.</li>
+            </ul>
+          </li>
+          <li>Build the CI/CD pipeline: automated tests (schema validation, a small "sanity" prediction set, load test) gate promotion from staging to production.</li>
+          <li>Roll out safely: shadow mode (score in parallel, don't act on it) &rarr; canary (a small % of traffic) &rarr; full rollout, with an automatic or one-command rollback path.</li>
+          <li>Wire the model version, input schema, and prediction logs into the same observability stack as the rest of production (structured logs, traces, metrics).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">6.2 <span class="step-title">&mdash; What the Data Scientist validates</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Confirms that predictions coming out of the deployed service match what was expected offline (a small golden-set parity check &mdash; same inputs, same outputs, within tolerance).</li>
+          <li>Signs off on the shadow/canary results before full rollout: are live predictions distributed as expected, and does the online metric (if measurable in near-real-time) track the offline one?</li>
+          <li>Defines the acceptance thresholds that the CI/CD pipeline's automated tests check against.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card accent-red shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small"><strong>Common failure here:</strong> <em>training/serving skew</em> &mdash; the features computed in the training pipeline (often in Python/pandas) don't exactly match the features computed in the low-latency serving path (often reimplemented in a different language or system). A shared feature store closes this gap; anything else needs an explicit parity test in the pipeline.</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 7. MAINTAIN -->
+  <section id="maintain" class="mb-5">
+    <h2 class="section-title">7. Phase 3 &mdash; Maintain</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Goal:</strong> keep the system running and the model correct as data, upstream systems, and the world change. A model is never "done" &mdash; it decays. This phase is run by MLOps, on a cadence and against thresholds that the Data Scientist defines.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.1 <span class="step-title">&mdash; Why models need maintenance at all</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li><strong>Data drift:</strong> the statistical distribution of input features shifts over time (new user segments, seasonality, a change in an upstream system) even if the relationship between features and label hasn't.</li>
+          <li><strong>Concept drift:</strong> the relationship between inputs and the true label changes (customer behavior evolves, a competitor changes the market, a fraud pattern adapts).</li>
+          <li><strong>Upstream data pipeline changes:</strong> a schema change, a silently broken ETL job, a unit change (cents &rarr; dollars) &mdash; these break models without any code change to the model itself.</li>
+          <li><strong>Software/dependency changes:</strong> library upgrades, infrastructure migrations, or a change to a feature's computation logic.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.2 <span class="step-title">&mdash; What the MLOps Engineer runs</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Automated or scheduled retraining pipelines (triggered on a cadence, on a drift alert, or on demand), re-running the DS-authored training recipe against fresh data.</li>
+          <li>Model registry lifecycle: staging &rarr; production &rarr; archived, with every version retained and traceable to its training data and code.</li>
+          <li>Rollback procedures: a one-command revert to the previous production model version if the new one underperforms.</li>
+          <li>Dependency and infrastructure upkeep: base image patches, Kubernetes/cluster upgrades, library CVE remediation &mdash; without breaking model behavior.</li>
+          <li>Champion/challenger and shadow evaluation infrastructure so a new candidate model can be compared against the current one on live traffic before promotion.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.3 <span class="step-title">&mdash; What the Data Scientist decides</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Sets the retraining trigger conditions in business/statistical terms (e.g. "retrain if PSI on top-5 features &gt; 0.2" or "retrain if 7-day rolling accuracy drops &gt; 3 points").</li>
+          <li>Re-validates every retrained candidate offline before it's promoted &mdash; retraining is not automatically re-approving.</li>
+          <li>Decides whether a drift alert requires a full retrain, a feature fix, or is actually a benign, expected shift (not every drift is a problem).</li>
+          <li>Owns the decision to deprecate a model entirely when it's no longer worth maintaining.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 8. MONITOR -->
+  <section id="monitor" class="mb-5">
+    <h2 class="section-title">8. Phase 4 &mdash; Monitor</h2>
+
+    <div class="card shadow-sm accent-green mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Goal:</strong> know, continuously and without manual investigation, whether the system is healthy and the model is still good. Monitoring spans two layers that require different skills and different owners.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">8.1 <span class="step-title">&mdash; System/operational monitoring (MLOps-owned)</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Signal</th><th>Why it matters</th></tr></thead>
+            <tbody>
+              <tr><td>Latency (p50/p95/p99), throughput, error rate</td><td>Is the endpoint meeting its SLA?</td></tr>
+              <tr><td>Resource utilization (CPU/GPU/memory), autoscaling behavior</td><td>Is capacity sized correctly? Any cost blowout?</td></tr>
+              <tr><td>Pipeline job success/failure, freshness (e.g. data landed on time)</td><td>Did the feature/training pipeline run and complete?</td></tr>
+              <tr><td>Uptime, crash loops, dependency health</td><td>Basic reliability of the running service</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">8.2 <span class="step-title">&mdash; Model/statistical monitoring (built by MLOps, interpreted by DS)</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Signal</th><th>What it catches</th></tr></thead>
+            <tbody>
+              <tr><td>Input data drift (PSI, KL-divergence, KS test per feature)</td><td>Feature distributions shifting away from training data</td></tr>
+              <tr><td>Prediction distribution drift</td><td>The model's outputs shifting even if you can't see ground truth yet</td></tr>
+              <tr><td>Ground-truth performance (accuracy, precision/recall, calibration) once labels arrive</td><td>Actual model quality decay</td></tr>
+              <tr><td>Segment-level performance breakdown</td><td>A model that's fine on average but failing for a subgroup</td></tr>
+              <tr><td>Outlier / out-of-distribution input rate</td><td>Requests the model was never trained to handle well</td></tr>
+              <tr><td>Fairness metrics over time</td><td>Bias creeping in as the population changes</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-2 mb-0">MLOps builds and operates the pipelines that compute these (often via a dedicated ML monitoring tool: Evidently, WhyLabs, Arize, Fiddler, or a cloud-native equivalent) and wires the alerts. The <strong>Data Scientist defines the thresholds</strong> and is the one paged (or looped in) when a statistical/quality alert fires &mdash; system alerts (endpoint down) page MLOps.</p>
+      </div>
+    </div>
+
+    <div class="card accent-yellow shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small">A useful rule of thumb: <strong>"is it up and fast?"</strong> is an MLOps question; <strong>"is it right?"</strong> is a Data Scientist question. Good monitoring answers both, routed to the right owner automatically.</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 9. FEEDBACK LOOP -->
+  <section id="feedbackloop" class="mb-5">
+    <h2 class="section-title">9. Automation, Testing &amp; the Champion/Challenger Feedback Loop</h2>
+
+    <div class="card shadow-sm accent-green mb-4">
+      <div class="card-body">
+        <p class="mb-0">This is the mechanism that turns "monitor" and "maintain" into a continuous, low-drama cycle instead of a fire drill: production predictions become tomorrow's evaluation data, new candidate models are compared against the live model automatically, and promotion is a tested, reversible pipeline step &mdash; not a manual redeploy. <strong>MLOps builds and operates this infrastructure; the Data Scientist is its primary user</strong>, defining what "better" means and reading its output.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">9.1 <span class="step-title">&mdash; The feedback loop, end to end</span></div>
+      <div class="step-body">
+        <p>Every production prediction is an opportunity to learn whether the model is still right &mdash; but only if it is captured, joined with the outcome once known, and fed back into evaluation and training. That closed loop is infrastructure, not a one-off script.</p>
+<pre class="diagram-pre">  Production traffic
+        &#9660;
+  &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+  &#9474; CHAMPION model &#9474;&#9472;&#9472;&#9472;&#9472;&#9472;&#9660; serves the real response
+  &#9474; (in production)&#9474;         &#9474;
+  &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;         &#9660;
+        &#9474; (shadow copy   &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+        &#9474;  of the request) &#9474; Prediction &amp; feature  &#9474;  (MLOps-built,
+        &#9660;                  &#9474; logging store         &#9474;   MLOps-maintained)
+  &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;         &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+  &#9474; CHALLENGER      &#9474;                    &#9474;
+  &#9474; model (shadow / &#9474;                    &#9474; ground truth arrives later
+  &#9474; % of traffic)   &#9474;                    &#9474; (a label, a chargeback,
+  &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;                    &#9474;  a click, an outcome event)
+        &#9474;                             &#9660;
+        &#9474;                    &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+        &#9474;                    &#9474; Label join / feedback  &#9474;  (MLOps-built,
+        &#9474;                    &#9474; dataset builder        &#9474;   MLOps-maintained)
+        &#9474;                    &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        &#9474;                             &#9474;
+        &#9660;                             &#9660;
+  &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+  &#9474; Champion vs. Challenger comparison         &#9474;  (MLOps runs the mechanism,
+  &#9474; (offline metrics + online stat. test)       &#9474;   DS defines the test &amp;
+  &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;   the win/promote threshold)
+        &#9474;
+        &#9660;  challenger wins &rArr; promote to new champion
+        &#9660;  challenger loses &rArr; discard / retrain / try again
+  &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9491;
+  &#9474; New CHAMPION goes live &rarr; loop repeats     &#9474;
+  &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</pre>
+        <p class="mb-0">The Data Scientist treats this loop as a <strong>self-service tool</strong>: register a challenger, define the comparison metric, read the verdict. They never need to touch the logging pipeline, the label-join job, or the traffic-splitting logic underneath it &mdash; that plumbing is MLOps's to build once and keep running for every model that uses it.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">9.2 <span class="step-title">&mdash; Champion vs. Challenger, in detail</span></div>
+      <div class="step-body">
+        <p><strong>Champion</strong> is the model currently serving production traffic and making the real decisions. <strong>Challenger</strong> is a candidate replacement &mdash; a retrained version, a new architecture, a different feature set &mdash; that has already passed offline evaluation and now needs to prove itself against reality before it's trusted with real decisions.</p>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-2">
+            <thead><tr><th>Evaluation mode</th><th>How it works</th><th>Risk to users</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Shadow mode</strong></td><td>Challenger scores every request in parallel with the champion; its prediction is logged but never returned to the user or acted on.</td><td>None &mdash; pure observation</td></tr>
+              <tr><td><strong>Champion/challenger split</strong></td><td>A small, fixed % of live traffic is routed to the challenger's actual prediction (a form of canary, but framed as an ongoing comparison rather than a one-time rollout step).</td><td>Small, bounded, monitored</td></tr>
+              <tr><td><strong>A/B test</strong></td><td>Randomized, often larger-scale split explicitly designed for statistical comparison of a business metric (not just model accuracy) over a fixed test window.</td><td>Bounded by test design</td></tr>
+              <tr><td><strong>Multi-armed bandit</strong></td><td>Traffic allocation to each candidate shifts dynamically toward the better performer as evidence accumulates.</td><td>Bounded, self-correcting</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Responsibility</th><th>Owner</th></tr></thead>
+            <tbody>
+              <tr><td>Traffic-splitting / shadow-routing infrastructure</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Logging both models' predictions with a shared request ID</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Registering a model as "challenger" and starting a comparison run</td><td><span class="badge badge-ds">DS</span> (self-service on MLOps's platform)</td></tr>
+              <tr><td>Choosing the comparison metric and the statistical test (e.g. a paired significance test, a minimum sample size / minimum detectable effect)</td><td><span class="badge badge-ds">DS</span></td></tr>
+              <tr><td>Setting the auto-promote threshold (or requiring manual sign-off)</td><td><span class="badge badge-ds">DS</span></td></tr>
+              <tr><td>Executing the promotion (or automatic rollback if the challenger underperforms)</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Alerting if the challenger causes any operational regression (latency, errors)</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">9.3 <span class="step-title">&mdash; Automated testing across the ML pipeline</span></div>
+      <div class="step-body">
+        <p>"Tests" for an ML system cover more ground than for typical software, because both the <em>code</em> and the <em>data</em> can be wrong. MLOps builds and maintains all of these as pipeline/CI gates; the Data Scientist defines what each test should check.</p>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Test type</th><th>What it catches</th><th>Typical tooling</th></tr></thead>
+            <tbody>
+              <tr><td>Data validation / schema tests</td><td>Missing columns, type changes, out-of-range values, null spikes in a new data batch</td><td>Great Expectations, Pandera, Deequ</td></tr>
+              <tr><td>Feature unit tests</td><td>A feature transform producing wrong values on known edge-case inputs</td><td>pytest against the feature-store transform code</td></tr>
+              <tr><td>Training pipeline integration tests</td><td>The end-to-end pipeline breaking after a dependency or infra change</td><td>CI running the pipeline against a small fixture dataset</td></tr>
+              <tr><td>Model quality regression tests</td><td>A new model performing worse than the champion on a fixed golden evaluation set</td><td>CI step comparing metrics before allowing registry promotion</td></tr>
+              <tr><td>Behavioral / invariance tests</td><td>The model changing its answer when it shouldn't (e.g. flipping a decision on a protected attribute, or on a semantically identical rephrasing for an LLM)</td><td>CheckList-style test suites, DS-authored assertions</td></tr>
+              <tr><td>Load / latency tests</td><td>The serving endpoint missing its SLA under realistic concurrency</td><td>Locust, k6, run in staging before promotion</td></tr>
+              <tr><td>Champion/challenger comparison gate</td><td>A challenger that looks fine offline but doesn't actually beat the champion on live traffic</td><td>The feedback-loop platform itself (9.1&ndash;9.2)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-2 mb-0">The through-line: every one of these is written once, by MLOps, as a reusable pipeline stage &mdash; and reused for <strong>every</strong> model and every retrain, so "did we test this?" is answered by the pipeline having run, not by asking someone to remember.</p>
+      </div>
+    </div>
+
+    <div class="card accent-yellow shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small"><strong>The pattern to internalize:</strong> the Data Scientist decides <em>what counts as better</em> and <em>what counts as broken</em>; the MLOps Engineer builds the always-on machinery &mdash; logging, label joins, traffic splitting, statistical comparison, CI gates &mdash; that answers those questions automatically, every time, for every model, without either side re-inventing it per project.</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 10. TOOLING -->
+  <section id="tooling" class="mb-5">
+    <h2 class="section-title">10. Shared Tooling &amp; Handoff Artifacts</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0">The handoff between DS and MLOps works when it happens through <strong>versioned artifacts and systems</strong>, not Slack messages and email attachments.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">10.1 <span class="step-title">&mdash; The artifacts that flow between the roles</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Artifact</th><th>Produced by</th><th>Consumed by</th></tr></thead>
+            <tbody>
+              <tr><td>Experiment run (params, metrics, code/data version)</td><td>DS</td><td>DS (comparison), MLOps (promotion decision input)</td></tr>
+              <tr><td>Registered model version + evaluation report</td><td>DS</td><td>MLOps (deploys it)</td></tr>
+              <tr><td>Feature definitions</td><td>DS (logic) + MLOps (platform)</td><td>Both, via the feature store</td></tr>
+              <tr><td>Serving container image</td><td>MLOps</td><td>MLOps (deploys), DS (validates parity)</td></tr>
+              <tr><td>Model card / documentation</td><td>DS (content)</td><td>MLOps (governance), stakeholders</td></tr>
+              <tr><td>Monitoring dashboards &amp; alerts</td><td>MLOps</td><td>Both</td></tr>
+              <tr><td>Retraining trigger config</td><td>DS (thresholds)</td><td>MLOps (implements/runs)</td></tr>
+              <tr><td>Incident postmortem</td><td>Whoever owned the incident</td><td>Both</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">10.2 <span class="step-title">&mdash; Typical tool categories</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Category</th><th>Examples</th><th>Mainly used by</th></tr></thead>
+            <tbody>
+              <tr><td>Notebooks / experimentation</td><td>Jupyter, Databricks notebooks, VS Code</td><td>DS</td></tr>
+              <tr><td>Experiment tracking</td><td>MLflow, Weights &amp; Biases, Neptune</td><td>DS uses, MLOps operates</td></tr>
+              <tr><td>Feature store</td><td>Feast, Tecton, Databricks Feature Store</td><td>Both</td></tr>
+              <tr><td>Model registry</td><td>MLflow Registry, SageMaker Model Registry, Azure ML Registry</td><td>Both</td></tr>
+              <tr><td>Pipeline orchestration</td><td>Airflow, Kubeflow Pipelines, Azure ML Pipelines, Dagster</td><td>MLOps</td></tr>
+              <tr><td>CI/CD</td><td>GitHub Actions, Jenkins, Azure DevOps, GitLab CI</td><td>MLOps</td></tr>
+              <tr><td>Serving/infra</td><td>Kubernetes, Docker, Seldon/KServe, cloud managed endpoints</td><td>MLOps</td></tr>
+              <tr><td>IaC</td><td>Terraform, Bicep, Pulumi</td><td>MLOps</td></tr>
+              <tr><td>Observability</td><td>Prometheus, Grafana, Datadog, Azure Monitor</td><td>MLOps</td></tr>
+              <tr><td>ML-specific monitoring</td><td>Evidently, WhyLabs, Arize, Fiddler</td><td>MLOps builds, DS reads</td></tr>
+              <tr><td>Lakehouse platform (compute, governance, ML runtime)</td><td>Databricks (Unity Catalog, Feature Store, MLflow, Workflows)</td><td>Both &mdash; see &sect;11.1</td></tr>
+              <tr><td>Cloud data warehouse (data, in-warehouse ML)</td><td>Snowflake (Snowpark, Feature Store, Cortex)</td><td>Both &mdash; see &sect;11.2</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 11. PLATFORM DEEP DIVE -->
+  <section id="platforms" class="mb-5">
+    <h2 class="section-title">11. Platform Deep Dive &mdash; Databricks &amp; Snowflake</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0">Most real-world ML orgs run on top of one (or both) of these platforms rather than assembling every piece from scratch. Both blur the DS/MLOps line in useful ways &mdash; each gives Data Scientists a self-service surface (notebooks, SQL, Python) while MLOps owns the governance, orchestration, and cost/perf tuning underneath it.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">11.1 <span class="step-title">&mdash; Databricks: Unity Catalog &amp; ML orchestration</span></div>
+      <div class="step-body">
+
+        <h5 class="fw-bold text-primary mt-0 mb-2">11.1.1 &nbsp;Unity Catalog &mdash; the governance layer</h5>
+        <p>Unity Catalog is Databricks' unified governance layer for <strong>all</strong> data and AI assets &mdash; not just tables. It gives the lakehouse a single, three-level namespace (<code>catalog.schema.object</code>) spanning tables, views, files (<strong>Volumes</strong>), functions, and &mdash; critically for ML &mdash; <strong>models and features</strong>, so a Data Scientist queries and registers assets the same way regardless of whether the underlying thing is a Delta table or a model version.</p>
+        <ul class="checklist mb-0">
+          <li><strong>Unified namespace for ML assets:</strong> the MLflow Model Registry lives <em>inside</em> Unity Catalog (<code>catalog.schema.model_name</code>), so a model version has the same lineage, access control, and discoverability as the table it was trained on &mdash; one governance boundary for data and models.</li>
+          <li><strong>Fine-grained access control:</strong> table-, row-, and column-level security (including dynamic views and column masking for PII) enforced centrally, so a Data Scientist's notebook and a production scoring job hit the exact same permission checks.</li>
+          <li><strong>End-to-end lineage:</strong> Unity Catalog automatically tracks lineage from raw table &rarr; feature &rarr; training run &rarr; registered model &rarr; serving endpoint, so "what data trained the model that's live right now" is a lineage-graph lookup, not an investigation.</li>
+          <li><strong>Feature &amp; Function Serving:</strong> the Databricks Feature Store is Unity-Catalog-native &mdash; features are just governed Delta tables with declared primary/lookup keys, usable for both training (point-in-time correct joins) and low-latency online serving.</li>
+          <li><strong>Audit logging:</strong> every read/write/query against a governed asset is logged centrally, which is what makes SOC2/HIPAA-style compliance tractable for ML pipelines touching sensitive data.</li>
+        </ul>
+
+        <h5 class="fw-bold text-primary mt-3 mb-2">11.1.2 &nbsp;Orchestration for ML on Databricks</h5>
+        <ul class="checklist mb-0">
+          <li><strong>Databricks Workflows (Jobs):</strong> the native orchestrator for multi-task pipelines &mdash; a typical ML job graph is <code>ingest &rarr; feature engineering &rarr; train &rarr; evaluate &rarr; register &rarr; deploy</code>, each task a notebook, script, or SQL query, with retries, alerting, and a schedule or trigger (e.g. "run when new data lands").</li>
+          <li><strong>Delta Live Tables (DLT):</strong> declarative pipelines for the ingestion/feature side &mdash; you declare the transformation logic and DLT manages incremental processing, data-quality expectations, and dependency ordering, feeding curated Delta tables that training jobs consume.</li>
+          <li><strong>MLflow (native, Unity-Catalog-backed):</strong> experiment tracking, model packaging, and the model registry are built in &mdash; a training run's params/metrics/artifacts and the resulting registered model version all live in the same governed catalog.</li>
+          <li><strong>Model Serving:</strong> a registered Unity Catalog model can be deployed to a managed, autoscaling REST endpoint (or a batch/streaming job) directly from the registry &mdash; the "operationalize" phase (&sect;6) becomes a few clicks/API calls on top of a model that's already governed.</li>
+          <li><strong>Databricks Asset Bundles (DABs):</strong> infra-as-code for Databricks itself &mdash; jobs, pipelines, and model-serving endpoints are defined as YAML and deployed via CI/CD, so MLOps manages the whole ML workflow the same way it manages Terraform/Bicep elsewhere.</li>
+          <li><strong>Lakehouse Monitoring:</strong> built on Unity Catalog, auto-generates data/feature drift and model-quality dashboards on top of the same governed tables the model trains from &mdash; directly feeding the feedback loop in &sect;9.</li>
+        </ul>
+
+        <h5 class="fw-bold text-primary mt-3 mb-2">11.1.3 &nbsp;Who owns what on Databricks</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Activity</th><th>Owner</th></tr></thead>
+            <tbody>
+              <tr><td>Notebook-based exploration, feature logic, model training</td><td><span class="badge badge-ds">DS</span></td></tr>
+              <tr><td>Unity Catalog structure (catalogs, schemas, access policies)</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Feature table declarations &amp; online serving config</td><td><span class="badge badge-both">Shared</span></td></tr>
+              <tr><td>Workflows/DLT pipeline authoring &amp; scheduling</td><td><span class="badge badge-mlops">MLOps</span> (DS supplies the logic)</td></tr>
+              <tr><td>Cluster policies, sizing, and cost controls</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Model Serving endpoint deployment &amp; scaling</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Asset Bundle / CI-CD for jobs &amp; endpoints</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">11.2 <span class="step-title">&mdash; Snowflake: data warehousing capabilities for ML</span></div>
+      <div class="step-body">
+
+        <h5 class="fw-bold text-primary mt-0 mb-2">11.2.1 &nbsp;The core warehousing model</h5>
+        <p>Snowflake's foundational property is the <strong>separation of storage and compute</strong>: data sits once in Snowflake's managed storage layer while any number of independently sized <strong>virtual warehouses</strong> (compute clusters) can query it concurrently without contending for resources. For ML workloads this means a Data Scientist's heavy feature-engineering query never slows down a production dashboard or a real-time scoring job &mdash; they simply run on different warehouses against the same governed data.</p>
+        <ul class="checklist mb-0">
+          <li><strong>Elastic, workload-isolated compute:</strong> spin up a warehouse sized (X-Small to 6X-Large) for a specific job &mdash; a small one for ad-hoc DS exploration, a large one for a nightly feature-recompute job &mdash; and suspend it when idle (pay-per-second billing).</li>
+          <li><strong>Zero-copy cloning:</strong> instantly clone an entire database/schema/table (metadata-only, no data copy) to snapshot a training dataset or spin up an isolated dev/test environment &mdash; the basis for reproducible "what data trained this model" snapshots.</li>
+          <li><strong>Time Travel &amp; Fail-safe:</strong> query data as it existed at a prior point in time (up to 90 days), which lets a Data Scientist reconstruct the exact feature values that existed when a historical prediction was made &mdash; essential for debugging drift or an audit.</li>
+          <li><strong>Semi-structured data support:</strong> native <code>VARIANT</code> columns for JSON/Avro/Parquet mean raw event or API data can be loaded and queried without a rigid upfront schema, common for feature-rich ML use cases.</li>
+          <li><strong>Data Sharing / Marketplace:</strong> securely share live (not copied) data across accounts/orgs &mdash; a common pattern for bringing in third-party enrichment data for feature engineering without building an ingestion pipeline.</li>
+          <li><strong>Governance:</strong> role-based access control, row-access policies, dynamic data masking, and object tagging give MLOps the same fine-grained control over training data access as Unity Catalog does on Databricks.</li>
+        </ul>
+
+        <h5 class="fw-bold text-primary mt-3 mb-2">11.2.2 &nbsp;Snowflake's ML-specific extensions</h5>
+        <ul class="checklist mb-0">
+          <li><strong>Snowpark (Python/Java/Scala):</strong> lets a Data Scientist write DataFrame-style feature engineering and even train models <em>inside</em> Snowflake's compute, avoiding an ETL hop to move data out to a separate Spark/pandas environment &mdash; the data never leaves the governed warehouse.</li>
+          <li><strong>Snowpark ML:</strong> a modeling API (preprocessing, scikit-learn-compatible model training, hyperparameter tuning) that runs distributed on warehouse compute, plus a Model Registry for versioning and deploying models as warehouse-native functions.</li>
+          <li><strong>Snowflake Feature Store:</strong> declares and manages features directly on top of warehouse tables, with point-in-time-correct retrieval for training and low-latency lookups for serving &mdash; the warehouse equivalent of Databricks' Feature Store.</li>
+          <li><strong>Cortex:</strong> Snowflake-managed LLM and ML functions (summarization, sentiment, forecasting, anomaly detection) callable directly in SQL, useful for lightweight ML tasks that don't warrant a custom model.</li>
+          <li><strong>Snowpark Container Services:</strong> runs arbitrary containerized workloads (including custom model-serving containers or GPU training jobs) inside Snowflake's security perimeter, closing the gap between "data warehouse" and "ML platform."</li>
+          <li><strong>Tasks &amp; Streams:</strong> Snowflake's native scheduling (<code>Tasks</code>) and change-data-capture (<code>Streams</code>) primitives can drive simple feature-refresh or retraining-trigger pipelines entirely in SQL, without an external orchestrator for lighter-weight cases.</li>
+        </ul>
+
+        <h5 class="fw-bold text-primary mt-3 mb-2">11.2.3 &nbsp;Who owns what on Snowflake</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Activity</th><th>Owner</th></tr></thead>
+            <tbody>
+              <tr><td>SQL/Snowpark feature exploration &amp; model prototyping</td><td><span class="badge badge-ds">DS</span></td></tr>
+              <tr><td>Warehouse sizing, auto-suspend/resume policy, cost governance</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>RBAC, row/column policies, data masking, tagging</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Feature Store table declarations</td><td><span class="badge badge-both">Shared</span></td></tr>
+              <tr><td>Tasks/Streams pipeline authoring for retraining triggers</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Snowpark Container Services deployment (model serving)</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+              <tr><td>Data sharing agreements / marketplace data governance</td><td><span class="badge badge-mlops">MLOps</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card accent-yellow shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small">Databricks and Snowflake increasingly overlap (Snowflake added Snowpark/Container Services for compute-heavy ML; Databricks added Lakehouse Federation and stronger SQL/warehousing ergonomics). The practical dividing line for most orgs: <strong>Databricks</strong> when the workload is compute-heavy, notebook-first ML/AI engineering; <strong>Snowflake</strong> when the workload is warehouse-centric analytics with ML layered on top of already-governed tables. Many orgs run both, connected via Lakehouse Federation or straightforward data sharing.</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 12. GRAY ZONES -->
+  <section id="grayzones" class="mb-5">
+    <h2 class="section-title">12. Where Responsibilities Overlap</h2>
+
+    <div class="card shadow-sm accent-yellow mb-4">
+      <div class="card-body">
+        <p class="mb-0">Not every line is crisp. These are the areas most teams have to explicitly negotiate, and where a <strong>Machine Learning Engineer</strong> role (sitting between the two) is often introduced to bridge the gap.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">12.1 <span class="step-title">&mdash; Gray zones and how mature teams resolve them</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Gray zone</th><th>Typical resolution</th></tr></thead>
+            <tbody>
+              <tr><td>Feature engineering code that must run in a low-latency serving path</td><td>DS writes the logic/spec; MLOps (or an ML Engineer) productionizes it into the feature store's online path</td></tr>
+              <tr><td>Notebook-to-pipeline conversion</td><td>Joint working session; MLOps owns the resulting pipeline code going forward</td></tr>
+              <tr><td>Choosing the retraining cadence</td><td>DS proposes based on observed drift rate; MLOps confirms it's operationally sustainable/cost-effective</td></tr>
+              <tr><td>Hyperparameter tuning infrastructure (e.g. distributed sweeps)</td><td>MLOps builds/scales the tuning infra; DS defines the search space and picks the winner</td></tr>
+              <tr><td>Interpreting a metric drop: model issue vs. data pipeline bug</td><td>Joint triage &mdash; MLOps checks pipeline/data integrity first (cheaper to rule out), DS investigates model behavior in parallel</td></tr>
+              <tr><td>LLM prompt engineering / RAG-specific logic</td><td>Often DS-owned as "the model," even though it's software &mdash; teams increasingly formalize this as LLMOps, blending both skillsets</td></tr>
+              <tr><td>Cost of a model in production (compute per prediction)</td><td>MLOps tracks and reports it; DS is accountable for reducing it if the model itself is the driver (e.g. a smaller/distilled model)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card accent-purple shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small"><strong>The Machine Learning Engineer (MLE):</strong> many orgs add this role specifically to own the gray zone &mdash; someone with enough DS background to understand the model and enough software engineering to productionize it, sitting between the two and reducing handoff friction.</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 13. ANTI-PATTERNS -->
+  <section id="antipatterns" class="mb-5">
+    <h2 class="section-title">13. Common Anti-Patterns &amp; Friction Points</h2>
+
+    <div class="card shadow-sm accent-red mb-4">
+      <div class="card-body">
+        <p class="mb-0">Most ML-in-production failures trace back to one of these organizational patterns, not a bad algorithm.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">13.1 <span class="step-title">&mdash; The failure patterns</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Anti-pattern</th><th>What goes wrong</th></tr></thead>
+            <tbody>
+              <tr><td><strong>"Throw it over the wall"</strong></td><td>DS hands over a notebook with no reproducibility metadata; MLOps has to reverse-engineer the training logic, introducing subtle bugs and delay</td></tr>
+              <tr><td><strong>No shared feature store</strong></td><td>Features are computed differently in training (pandas) vs. serving (a rewritten Java/Go path) &rarr; training/serving skew, silent accuracy loss</td></tr>
+              <tr><td><strong>DS doing their own ad-hoc deployment</strong></td><td>A model gets deployed outside CI/CD "just this once," bypassing scans, tests, and rollback &mdash; becomes an unowned, undocumented liability</td></tr>
+              <tr><td><strong>MLOps deploying without a validation gate</strong></td><td>A retrained model is promoted automatically on a schedule with no DS sign-off; a regression ships unnoticed</td></tr>
+              <tr><td><strong>Monitoring only system health</strong></td><td>The endpoint is "green" on every dashboard while the model quietly degrades in accuracy &mdash; no one is watching the right signal</td></tr>
+              <tr><td><strong>No model registry / versioning</strong></td><td>Nobody can answer "which model version produced this prediction," breaking incident response and audits</td></tr>
+              <tr><td><strong>Retraining treated as re-approval</strong></td><td>A new model version is pushed to production the moment a scheduled retrain finishes, with no offline re-evaluation</td></tr>
+              <tr><td><strong>DS owns production on-call</strong></td><td>Data Scientists get paged for infrastructure incidents they can't fix, burning out the wrong role and starving modeling time</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 14. RACI -->
+  <section id="raci" class="mb-5">
+    <h2 class="section-title">14. RACI Matrix Across the Lifecycle</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>R</strong>esponsible (does the work) &middot; <strong>A</strong>ccountable (owns the outcome) &middot; <strong>C</strong>onsulted (input sought) &middot; <strong>I</strong>nformed (kept in the loop).</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">14.1 <span class="step-title">&mdash; RACI by lifecycle stage</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Stage</th><th>Data Scientist</th><th>MLOps Engineer</th><th>Product/Business</th></tr></thead>
+            <tbody>
+              <tr><td>Problem framing &amp; metric definition</td><td>R / A</td><td>I</td><td>C</td></tr>
+              <tr><td>Data exploration &amp; feature design</td><td>R / A</td><td>C</td><td>I</td></tr>
+              <tr><td>Platform (feature store, tracking, compute)</td><td>C</td><td>R / A</td><td>I</td></tr>
+              <tr><td>Model training &amp; offline evaluation</td><td>R / A</td><td>I</td><td>I</td></tr>
+              <tr><td>Pipeline productionization</td><td>C</td><td>R / A</td><td>I</td></tr>
+              <tr><td>Packaging, deployment, CI/CD</td><td>C</td><td>R / A</td><td>I</td></tr>
+              <tr><td>Canary/shadow validation</td><td>R / A</td><td>R</td><td>I</td></tr>
+              <tr><td>System monitoring &amp; incident response</td><td>I</td><td>R / A</td><td>I</td></tr>
+              <tr><td>Model quality monitoring</td><td>R / A</td><td>R</td><td>I</td></tr>
+              <tr><td>Retraining execution</td><td>C</td><td>R / A</td><td>I</td></tr>
+              <tr><td>Retrain re-validation &amp; promotion decision</td><td>R / A</td><td>C</td><td>I</td></tr>
+              <tr><td>Deprecation / sunset decision</td><td>R / A</td><td>C</td><td>C</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 15. DAY IN THE LIFE -->
+  <section id="dayinlife" class="mb-5">
+    <h2 class="section-title">15. A Day in the Life &mdash; Example Incident</h2>
+
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-0">A worked example showing the two roles in motion together: an alert fires that a fraud-detection model's precision has dropped.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">15.1 <span class="step-title">&mdash; Timeline</span></div>
+      <div class="step-body">
+        <ol class="mb-0">
+          <li><strong>08:14</strong> &mdash; The ML monitoring platform (owned by MLOps) fires an alert: 7-day rolling precision on the fraud model dropped from 0.91 to 0.78. It pages the on-call Data Scientist and posts to a shared channel.</li>
+          <li><strong>08:20</strong> &mdash; MLOps first rules out an infrastructure cause: checks the feature pipeline's job logs, confirms all upstream data landed on time and the serving endpoint's latency/error rate are nominal. Infra is healthy.</li>
+          <li><strong>08:35</strong> &mdash; The Data Scientist pulls the drift dashboard (MLOps-built, DS-read): one feature &mdash; "transaction velocity in the last hour" &mdash; shows a large PSI spike starting three days ago.</li>
+          <li><strong>08:50</strong> &mdash; Joint triage: MLOps traces the spike to an upstream payments team change (a new transaction type was added). It's not model decay &mdash; it's a definition change the model was never trained on.</li>
+          <li><strong>09:15</strong> &mdash; The Data Scientist decides: retrain with the new transaction type included, rather than trying to filter it out. Updates the feature spec.</li>
+          <li><strong>09:30</strong> &mdash; MLOps triggers the retraining pipeline against fresh data; it runs unattended, registers a new candidate model version, and runs the automated offline test suite.</li>
+          <li><strong>11:00</strong> &mdash; The Data Scientist reviews the new candidate's offline evaluation: precision recovers to 0.93. Signs off.</li>
+          <li><strong>11:15</strong> &mdash; MLOps promotes the new version through the CI/CD pipeline: shadow mode for 2 hours, then a 10% canary.</li>
+          <li><strong>13:30</strong> &mdash; Canary metrics look healthy on both operational (latency, errors) and statistical (precision, prediction distribution) dashboards. MLOps completes the rollout to 100%.</li>
+          <li><strong>13:35</strong> &mdash; Both write a short postmortem: root cause (upstream schema change untracked by data contracts), fix (retrain + updated feature), and a follow-up action item (add a data contract / schema alert with the payments team so this is caught before it degrades the model next time).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card accent-green shadow-sm mb-0">
+      <div class="card-body py-2"><p class="mb-0 small">Notice what made this fast: a monitoring system that surfaced the <em>right layer</em> of signal (feature drift, not just "endpoint is fine"), a registry and CI/CD pipeline that made retrain-and-redeploy a known, repeatable, low-risk motion, and a clear rule for who decides what.</p></div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 16. CHECKLIST -->
+  <section id="checklist" class="mb-5">
+    <h2 class="section-title">16. Checklist for a Healthy DS/MLOps Handoff</h2>
+
+    <div class="step-box">
+      <div class="step-bar">16.1 <span class="step-title">&mdash; Before a model ships</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Model is registered with a version, its training data/code lineage, and a written evaluation report.</li>
+          <li>Input/output schema is explicit and validated at the serving boundary.</li>
+          <li>Features used in training exist in the feature store's online path with proven parity.</li>
+          <li>Success metric and its retraining/rollback thresholds are written down, not tribal knowledge.</li>
+          <li>A named DS owner and a named MLOps owner both exist for this model.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">16.2 <span class="step-title">&mdash; Before a model goes fully live</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Shadow or canary results reviewed and signed off by DS.</li>
+          <li>Rollback path tested, not just documented.</li>
+          <li>Both system-health and model-quality dashboards exist, with alert routing to the correct owner.</li>
+          <li>Model card / documentation published (purpose, limitations, training data summary, known biases).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">16.3 <span class="step-title">&mdash; Ongoing</span></div>
+      <div class="step-body">
+        <ul class="checklist mb-0">
+          <li>Drift and quality dashboards are actually reviewed on a cadence, not just built and forgotten.</li>
+          <li>Every retrained/promoted model version goes through the same offline re-validation as the original.</li>
+          <li>Incident postmortems feed back into either the monitoring thresholds, the feature set, or the pipeline &mdash; not just a Slack thread that gets lost.</li>
+          <li>On-call rotation matches ownership: MLOps for the service being up, DS for the model being right.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="back-to-top mt-2"><a href="#toc">&uarr; Back to Table of Contents</a></p>
+  </section>
+
+</main>
+
+<footer class="text-white py-4 mt-5">
+  <div class="container text-center small">
+    MLOps Playbook &mdash; how Data Scientists and MLOps Engineers divide responsibility and jointly build, operationalize, maintain, and monitor AI/ML models in production. Role boundaries, tool choices, and org structures vary by team size and maturity &mdash; treat this as a starting framework to adapt, not a fixed org chart. 18 Sep 2026.
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/build/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
