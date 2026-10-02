@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Muse Ecosystem — What It Is, Why Consumers Care, How Developers Build, and What It Is Worth to Meta</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/vs2015.min.css">
+<style>
+  :root{
+    --biz-blue:#0d6efd;
+    --biz-blue-light:#6ea8fe;
+    --biz-blue-dark:#084298;
+    --biz-yellow:#ffc107;
+    --biz-red:#dc3545;
+    --biz-green:#198754;
+    --biz-purple:#6f42c1;
+    --nav-blue:#04264d;
+    --nav-yellow:#ffd60a;
+  }
+  body{ background:#f7f8fa; margin:0; }
+
+  /* Sticky top nav */
+  .topnav{
+    position:sticky; top:0; z-index:1030;
+    background:var(--nav-blue);
+    color:var(--nav-yellow);
+    padding:.9rem 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.25);
+  }
+  .topnav .brand{ display:inline-flex; align-items:center; text-decoration:none; }
+  .topnav .brand-logo{ height:44px; width:auto; display:block; }
+  .topnav .tagline{
+    font-weight:600; font-size:1.05rem; color:var(--nav-yellow);
+    letter-spacing:.15em; word-spacing:.6em; font-style:italic;
+  }
+  @media (max-width:576px){
+    .topnav{ flex-direction:column; text-align:center; gap:.4rem; padding:.75rem 1rem; }
+  }
+
+  section[id]{ scroll-margin-top:84px; }
+  html{ scroll-behavior:smooth; }
+
+  .hero{
+    background:linear-gradient(120deg, #1a5c1a 0%, #198754 55%, #2ea043 100%);
+    color:#fff;
+  }
+  .hero code{ color:#fff; background:rgba(255,255,255,.15); }
+  .accent-blue{ border-left:5px solid var(--biz-blue); }
+  .accent-green{ border-left:5px solid var(--biz-green); }
+  .accent-red{ border-left:5px solid var(--biz-red); }
+  .accent-yellow{ border-left:5px solid var(--biz-yellow); }
+  .accent-purple{ border-left:5px solid var(--biz-purple); }
+
+  .section-title{
+    display:inline-flex; align-items:center; gap:.6rem;
+    padding-bottom:.4rem; border-bottom:3px solid var(--biz-green);
+    margin-bottom:1.25rem;
+  }
+  .toc-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.8rem; height:1.8rem; border-radius:50%;
+    background:var(--biz-yellow); color:#2b2b2b; font-weight:700; font-size:.85rem;
+    margin-right:.5rem; flex:none;
+  }
+  .toc-list a{ text-decoration:none; color:#212529; }
+  .toc-list a:hover{ color:var(--biz-green); text-decoration:underline; }
+  .toc-item{ display:flex; align-items:center; padding:.4rem 0; }
+  .back-to-top{ font-size:.85rem; }
+  .color-key-dot{ width:.9rem; height:.9rem; border-radius:50%; display:inline-block; margin-right:.4rem; }
+  table thead th{ background:#eef3fb; }
+
+  /* Numbers / stat callout windows */
+  .code-window{ background:#084298; border-radius:.5rem; overflow:hidden; margin:1rem 0 1.5rem; box-shadow:0 .25rem .75rem rgba(0,0,0,.3); }
+  .code-window .code-titlebar{
+    background:#323233; color:#cccccc; padding:.45rem .9rem; font-size:.8rem;
+    display:flex; align-items:center; gap:.4rem; font-family:'Segoe UI',Roboto,sans-serif;
+  }
+  .code-window .dot{ width:.7rem; height:.7rem; border-radius:50%; display:inline-block; }
+  .dot-red{ background:#ff5f56; } .dot-yellow{ background:#ffbd2e; } .dot-green{ background:#27c93f; }
+  .code-window .code-filename{ margin-left:.5rem; opacity:.85; }
+  .code-window pre{ margin:0 !important; padding:1rem 1.25rem !important; background:#084298 !important; overflow-x:auto; box-shadow:none; }
+  .code-window code, .code-window code *{ font-family:'Fira Code',Consolas,Monaco,monospace; font-size:.85rem; background:transparent !important; color:#ffffff !important; font-weight:700 !important; text-shadow:none; }
+
+  .badge-tool{ background:#04264d; color:var(--nav-yellow); }
+
+  /* Step-by-step walkthrough boxes */
+  .step-box{
+    background:#e9ecef;
+    border-radius:.5rem;
+    overflow:hidden;
+    margin:0 0 1.25rem;
+    box-shadow:0 .15rem .5rem rgba(0,0,0,.12);
+  }
+  .step-box .step-bar{
+    background:var(--nav-blue);
+    color:#5BF527;
+    font-weight:700;
+    padding:.5rem 1.1rem;
+    font-size:.95rem;
+    letter-spacing:.02em;
+  }
+  .step-box .step-bar .step-title{
+    font-weight:700;
+  }
+  .step-box .step-body{ padding:1rem 1.25rem; }
+  .step-box .step-body p:last-child{ margin-bottom:0; }
+
+  /* Real source-code blocks */
+  main pre{ border-radius:.5rem; margin:0 0 1rem; overflow-x:auto; box-shadow:0 .15rem .5rem rgba(0,0,0,.18); }
+  main pre code.hljs{ padding:1rem 1.25rem; border-radius:.5rem; font-size:.82rem; line-height:1.55; font-family:'Fira Code',Consolas,Monaco,monospace; }
+  .lib-table{ font-size:.85rem; }
+  .lib-table td, .lib-table th{ vertical-align:top; }
+  .lib-table td:first-child{ white-space:nowrap; }
+
+  footer{ background:var(--nav-blue); }
+  footer a{ color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP NAV -->
+<div class="topnav">
+  <span class="brand"><img class="brand-logo" src="logo.svg" alt="RAG Champ"></span>
+  <div class="tagline">BUSINESS OF AI</div>
+</div>
+
+<!-- HERO -->
+<header class="hero py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-9">
+        <span class="badge rounded-pill bg-warning text-dark mb-3">Ecosystem Analysis · <code style="background:rgba(0,0,0,.15);">META · MUSE</code> · 2 Oct 2026</span>
+        <h1 class="display-6 fw-bold">The Muse Ecosystem: What It Is, Why a Consumer Would Use It, How Developers Build on It, and What It Is Worth to Meta</h1>
+        <p class="lead mb-0">"Muse" is the name Meta Superintelligence Labs (MSL) now puts on everything it ships in AI: a family of <strong>models</strong> (Muse Spark, Muse Glimmer, Muse Image, Muse Voice), a <strong>personal agent app</strong> (Muse, launched 8 Sep 2026), <strong>developer products</strong> (Meta Model API, Muse Code, Muse Connectors) and a growing set of <strong>devices</strong> that host the agent (Ray-Ban Display, VR Glasses, Muse Charm). It replaces Llama as the center of Meta's AI strategy. This note explains the pieces, answers the honest question "why use Muse when other apps already book restaurants?", walks through how a developer builds on it, and assesses the long-term value to Meta. Companion to <a href="CUDA-ECOSYSTEM.html" class="text-white">CUDA-ECOSYSTEM</a>.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container my-5">
+
+  <!-- COLOR KEY -->
+  <div class="mb-5">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body py-3">
+        <div class="row g-2 small text-center text-md-start">
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-blue);"></span>Blue — how it works / the mechanism</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-green);"></span>Green — business value / proof</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-red);"></span>Red — risks &amp; limits</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-yellow);"></span>Yellow — context &amp; numbers</div>
+          <div class="col-6 col-md-2"><span class="color-key-dot" style="background:var(--biz-purple);"></span>Purple — what you can build</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm accent-yellow mb-5">
+    <div class="card-body small">
+      <strong>Note on facts.</strong> Muse is less than a month old as a consumer product. Product facts come from Meta's own announcements (about.fb.com, ai.meta.com, developers.meta.com) and Meta's Q2 2026 results. Some numbers — app install counts, API token pricing, paid-tier prices — come from press and third-party trackers and are marked <em>"reported"</em>. Where Meta has not published something (connector revenue share, usage quotas), this note says so instead of guessing.
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <section id="toc" class="mb-5">
+    <h2 class="section-title">Table of Contents</h2>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="row toc-list">
+          <div class="col-md-6">
+            <div class="toc-item"><span class="toc-num">1</span><a href="#what">What Is the Muse Ecosystem, in Plain English</a></div>
+            <div class="toc-item"><span class="toc-num">2</span><a href="#timeline">How It Came Together (2025 → 2026)</a></div>
+            <div class="toc-item"><span class="toc-num">3</span><a href="#consumer">What Is Actually Unique for a Consumer</a></div>
+            <div class="toc-item"><span class="toc-num">4</span><a href="#hood">Muse Under the Hood</a></div>
+            <div class="toc-item"><span class="toc-num">5</span><a href="#dev">How a Developer Builds on Muse</a></div>
+          </div>
+          <div class="col-md-6">
+            <div class="toc-item"><span class="toc-num">6</span><a href="#vision">How Muse Fits Meta's AI Vision — and What Happened to Llama</a></div>
+            <div class="toc-item"><span class="toc-num">7</span><a href="#value">Long-Term Value to Meta</a></div>
+            <div class="toc-item"><span class="toc-num">8</span><a href="#weaken">What Could Go Wrong</a></div>
+            <div class="toc-item"><span class="toc-num">9</span><a href="#bottomline">Bottom Line</a></div>
+            <div class="toc-item"><span class="toc-num">10</span><a href="#sources">Sources</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. WHAT IS MUSE -->
+  <section id="what" class="mb-5">
+    <h2 class="section-title">1. What Is the Muse Ecosystem, in Plain English</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Muse is Meta's attempt to give each of its ~3.6 billion daily users a personal AI agent that does things for them — not just answers questions — and to make that agent the front door through which people use apps, shop, message businesses and wear computers.</strong></p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-yellow mb-4">
+      <div class="card-body">
+        <p class="mb-1"><strong>Chatbot vs. agent — why the difference matters:</strong></p>
+        <ul class="mb-0">
+          <li>A <strong>chatbot</strong> (the old Meta AI, early ChatGPT) answers: "Here are five Italian restaurants near you with tables Friday."</li>
+          <li>An <strong>agent</strong> acts: it checks your calendar, asks your friends in the WhatsApp group, picks the place that fits everyone, books it, adds it to calendars, and reminds you Friday afternoon. It runs in the background, uses websites and apps the way a person would, and comes back to you only for approvals.</li>
+          <li>Muse is the agent. It runs on Meta's own <strong>Muse Spark</strong> model, in a private cloud computer Meta gives each user.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">1.1 <span class="step-title">— The four layers of the ecosystem</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Layer</th><th>Pieces</th><th>What it is for</th><th>Open or closed</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1. Models</strong></td><td>Muse Spark (1.0 Apr → 1.1 Jul → 1.2 Aug → 1.3 Sep 2026), Muse Glimmer (30B), Muse Image, Muse Voice Transcribe</td><td>The "brains." Spark is the frontier multimodal reasoning model; Glimmer is a small model that runs on one GPU or a Mac mini</td><td>Spark: closed (open weights for a 1.2 version promised). Glimmer: <strong>open, Apache 2.0</strong></td></tr>
+              <tr><td><strong>2. Consumer products</strong></td><td>Muse app (iOS, Android, web, WhatsApp, Mac); Meta AI inside WhatsApp / Instagram / Facebook / Messenger / Threads</td><td>The personal agent people talk to and delegate to</td><td>Closed service. Free tier + paid tiers (reported $20 and $100/month)</td></tr>
+              <tr><td><strong>3. Business &amp; developer products</strong></td><td>Meta Model API, Muse Code, Muse Connectors, Meta AI Connectors (API / MCP), Meta Business Agent, Muse for Small Business, Meta Enterprise Platform</td><td>Let developers use the models, plug their services into the agent, and let businesses run their own agents</td><td>Commercial platform; OpenAI-compatible API</td></tr>
+              <tr><td><strong>4. Devices</strong></td><td>Ray-Ban Meta Gen 3, Meta Ray-Ban Display + Neural Band, Meta VR Glasses (spring 2027), Muse Charm (keychain)</td><td>Places the agent lives that Apple and Google do not control</td><td>Meta hardware; Wearables Device Access Toolkit 1.0 for developers</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-green mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>One-sentence version:</strong> Muse is Meta's full AI stack — its own models, a personal agent, a developer platform and its own hardware — built so that the place people ask a computer to get things done is a Meta surface rather than Google, Apple or OpenAI.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 2. TIMELINE -->
+  <section id="timeline" class="mb-5">
+    <h2 class="section-title">2. How It Came Together (2025 → 2026)</h2>
+    <div class="card shadow-sm accent-yellow mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Date</th><th>Event</th><th>Why it matters</th></tr></thead>
+            <tbody>
+              <tr><td>Apr 2025</td><td>Llama 4 (Scout / Maverick) released; poorly received, with allegations of benchmark contamination</td><td>Meta loses its "best open model" position; triggers the reset</td></tr>
+              <tr><td>Jun 2025</td><td>Meta invests $14.3B for 49% of Scale AI; Alexandr Wang becomes Chief AI Officer; Meta Superintelligence Labs (MSL) formed; very large pay packages to recruit researchers</td><td>New team, new pre-training stack, new goal: "personal superintelligence"</td></tr>
+              <tr><td>8 Apr 2026</td><td><strong>Muse Spark</strong> launched — first Muse model; powers Meta AI across WhatsApp, Instagram, Facebook, Messenger, Threads. <strong>Closed weights</strong> — the first frontier Meta model not released openly</td><td>The break from the Llama open-weights strategy. Meta says it matches Llama 4 Maverick capability with &gt;10&times; less compute</td></tr>
+              <tr><td>9 Jul 2026</td><td>Muse Spark 1.1 + <strong>Meta Model API</strong> public preview (OpenAI-compatible; 1M-token context; tool and computer use). Early partners: Replit, Cline, Box</td><td>Meta starts selling model access directly to developers for the first time</td></tr>
+              <tr><td>Jul 2026</td><td>Q2 results: revenue $60.8B (+28%); 2026 capex guided to $130–145B; Meta AI reported &gt;1.5B monthly users; &gt;1M businesses using Business Agents weekly (reported)</td><td>Shows the scale of spending Muse has to justify</td></tr>
+              <tr><td>5 Aug 2026</td><td>Muse Spark 1.2 and <strong>Muse Code</strong> (agentic coding, beta) launched</td><td>Direct competition with Claude Code / OpenAI Codex</td></tr>
+              <tr><td>10 Aug 2026</td><td><strong>Muse Glimmer</strong> (30B, Apache 2.0) open weights; Zuckerberg commits to open weights for a version of Muse Spark 1.2</td><td>Meta partially re-opens — keeps a foot in the open-model world Llama built</td></tr>
+              <tr><td>8 Sep 2026</td><td><strong>Muse app launched</strong> (US, 18+) on Muse Spark 1.3 — iOS, Android, web, WhatsApp; Mac on 17 Sep</td><td>The consumer agent. Reported #1 free app on US App Store, ahead of ChatGPT</td></tr>
+              <tr><td>18 Sep 2026</td><td>Muse Connectors developer program opens</td><td>The "app store" moment for the agent</td></tr>
+              <tr><td>23–24 Sep 2026</td><td>Meta Connect: Muse built into Meta VR Glasses OS; Muse Charm; Wearables Device Access Toolkit 1.0; Meta Model API GA globally (also via Oracle Cloud, Google Cloud preview); Muse Code GA</td><td>Muse becomes the operating layer of Meta's hardware</td></tr>
+              <tr><td>28–29 Sep 2026</td><td>Meta Enterprise Platform (led by CJ Desai, ex-MongoDB CEO) and Muse for Small Business with Shopify, QuickBooks, Stripe, Slack, Notion and other connectors</td><td>Muse becomes a business product, not just a consumer one</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 3. CONSUMER -->
+  <section id="consumer" class="mb-5">
+    <h2 class="section-title">3. What Is Actually Unique for a Consumer</h2>
+
+    <div class="card shadow-sm accent-red mb-4">
+      <div class="card-body">
+        <p class="mb-1"><strong>The honest answer to "there are already apps that book restaurants".</strong></p>
+        <p class="mb-0">You are right. If the whole job is "book a table for two at 7:30 at Luigi's," Muse adds almost nothing over OpenTable, Resy or Google Maps — and Muse literally uses the <strong>OpenTable connector</strong> to do it. A one-step task that a good app already does is the <em>weakest</em> case for any agent. Muse's value only shows up when a task <strong>crosses several apps, needs to know who you are and who your people are, or is too tedious to do yourself.</strong></p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">3.1 <span class="step-title">— Same request, two ways: "Set up dinner Friday for my book club"</span></div>
+      <div class="step-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h6 class="fw-bold">Without Muse (you do the orchestration)</h6>
+            <ol class="small mb-0">
+              <li>Open WhatsApp, ask the group who is free; wait; chase replies.</li>
+              <li>Remember Priya is vegetarian and Sam can't do downtown.</li>
+              <li>Open OpenTable, search, compare three places, check Friday slots for 6.</li>
+              <li>Book; copy confirmation.</li>
+              <li>Back to WhatsApp to post details; create a calendar invite.</li>
+              <li>Friday: remind everyone; afterwards, split the bill in another app.</li>
+            </ol>
+            <p class="small mt-2 mb-0">≈ 6 apps, 20–40 minutes spread over two days.</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="fw-bold">With Muse (you approve)</h6>
+            <ol class="small mb-0">
+              <li>One message in WhatsApp or the Muse app.</li>
+              <li>Muse polls the group chat (Muse-only Messenger/WhatsApp/Instagram connectors), reads calendars (Google/Outlook connectors).</li>
+              <li>Uses <strong>memory</strong> ("Priya vegetarian", "Sam avoids downtown").</li>
+              <li>Books via OpenTable — or, if the restaurant has no booking app, uses its <strong>own browser</strong> in the VM, or messages the restaurant's WhatsApp Business Agent.</li>
+              <li>Posts details, sends invites, sets the Friday reminder, keeps running after you close the app.</li>
+              <li>You see one approval prompt and an audit trail.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">3.2 <span class="step-title">— Seven things Muse brings that single-purpose apps (and most rivals) don't</span></div>
+      <div class="step-body">
+        <ol class="mb-0">
+          <li class="mb-2"><strong>It lives where you already are.</strong> Muse works inside WhatsApp (3B+ users) — no new app, no new habit. Reportedly ~95% of early Muse users also use Facebook: Meta's distribution, not the product alone, drove the #1 App Store ranking. No standalone agent startup can match this.</li>
+          <li class="mb-2"><strong>It knows your social graph.</strong> Only Meta can connect an agent to your Messenger, WhatsApp, Instagram and Facebook conversations (these connectors are "Muse-only"). Coordinating <em>people</em> — group plans, birthdays, family logistics — is where most daily friction is, and it is exactly what OpenTable, Expedia or ChatGPT can't see.</li>
+          <li class="mb-2"><strong>It does work in the background on a real computer.</strong> Each user gets a dedicated cloud virtual machine with a browser. Muse can fill forms, compare sites, negotiate a bill or wait on hold-style tasks <em>after you close the app</em>. For the long tail of businesses with no API (a local restaurant with only a web form), the agent just uses the website.</li>
+          <li class="mb-2"><strong>It remembers.</strong> Long-term memory of preferences (diet, budget, seat choice, kids' schedules) means every request gets shorter over time. Single-purpose apps remember only their own slice.</li>
+          <li class="mb-2"><strong>It can pay safely.</strong> Purchases route through Stripe Link; Muse never sees your card or passwords (a Secure Credentials Store holds them). A separate <strong>Sentinel</strong> agent must approve anything the agent sends to the internet. That design is a direct answer to "would I trust Meta with my wallet?"</li>
+          <li class="mb-2"><strong>It's free to start.</strong> Free tier with a visible usage meter; reported $20 "Power" and $100 "Maximum" tiers. At launch ChatGPT had moved its agent mode to paid plans and Google's Gemini agent had no free tier — free is a big reason Muse spread fast.</li>
+          <li class="mb-0"><strong>It follows you onto your face.</strong> Muse is coming to Ray-Ban Meta / Ray-Ban Display glasses, is built into the OS of the 2027 VR Glasses, and ships in the Muse Charm keychain. "Hey Meta, book that place we just walked past" is something a phone app cannot do as naturally.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">3.3 <span class="step-title">— Where Muse is <em>not</em> better (today)</span></div>
+      <div class="step-body">
+        <ul class="mb-0">
+          <li><strong>Simple single-app tasks</strong> — the dedicated app is faster.</li>
+          <li><strong>US-only</strong> at launch; Google's Gemini agent reached 160+ countries.</li>
+          <li><strong>Sites that block automation</strong> or need logins you haven't connected — the agent fails. Early testers also found gaps (e.g. only reading the first frame of Instagram videos).</li>
+          <li><strong>Knowledge work</strong> (long documents, research, spreadsheets) — Claude Cowork and ChatGPT are stronger and more trusted for work accounts.</li>
+          <li><strong>Trust.</strong> Meta's privacy record (FTC orders in 2011 and 2019, $5B penalty) makes "give Meta access to your email and wallet" a real ask. Meta's mitigations: Muse conversations kept separate from ad systems, opt-out of training, "forget this", and a promised end-to-end-encrypted <em>Muse Confidential VM</em> (not yet shipped).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-green">
+      <div class="card-body">
+        <p class="mb-0"><strong>The consumer thesis in one line:</strong> apps do <em>a task</em>; Muse is meant to do <em>your errands</em> — multi-step, multi-app, multi-person jobs — using context only Meta has (your people and your conversations), from the messaging app you already open 20 times a day.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 4. UNDER THE HOOD -->
+  <section id="hood" class="mb-5">
+    <h2 class="section-title">4. Muse Under the Hood</h2>
+
+    <div class="step-box">
+      <div class="step-bar">4.1 <span class="step-title">— The model: Muse Spark</span></div>
+      <div class="step-body">
+        <ul class="mb-0">
+          <li><strong>Natively multimodal reasoning model</strong> — text, images, video and PDFs in; built for agentic tasks, tool use and computer use.</li>
+          <li><strong>1M-token context</strong> with active context management (important for long-running agent sessions).</li>
+          <li><strong>Thought compression</strong> — trained with a time penalty during reinforcement learning so it learns to reason in fewer tokens. Third-party index (Artificial Analysis) measured ~59M tokens to complete its eval vs ~158M for a comparable Claude model: cheaper to serve, which matters when the product is free.</li>
+          <li><strong>Parallel sub-agents / "Contemplating" mode</strong> — many agents work on a problem at once instead of one agent thinking longer; Meta reports 58% on Humanity's Last Exam in this mode.</li>
+          <li><strong>Where it ranks:</strong> at launch, 4th on the Artificial Analysis Intelligence Index (52 vs 57 for the leaders). Strong at multimodal and health tasks; weaker at coding and long-horizon agent work — gaps Meta itself acknowledged and targeted in versions 1.1–1.3.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">4.2 <span class="step-title">— The agent runtime: what happens when you say "do this"</span></div>
+      <div class="step-body">
+<div class="code-window">
+  <div class="code-titlebar"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-filename">muse-request-flow.txt</span></div>
+<pre><code>You (WhatsApp / Muse app / glasses / Mac)
+   │  "Book dinner Friday for the book club"
+   ▼
+Muse Secure VM  ── one dedicated cloud computer per user
+   ├─ Muse Spark 1.3  (plans, splits into parallel sub-tasks)
+   ├─ Memory          (preferences, people, past tasks)
+   ├─ Connectors      (Gmail, Calendar, OpenTable, Messenger, WhatsApp …)
+   ├─ Browser         (for sites with no connector / no API)
+   └─ Secure Credentials Store  (agent can USE, never SEE, passwords)
+   │
+   ▼
+Sentinel agent ── separate gatekeeper; nothing leaves the VM unless approved
+   │
+   ▼
+Internet / businesses / Stripe Link (payments)
+   │
+   ▼
+Audit trail + approval prompts back to you</code></pre>
+</div>
+        <p class="mb-0"><strong>Why this design matters:</strong> the VM isolates one user's data and actions from everyone else's; the Sentinel is a second model that checks the first one (defense against prompt-injection from malicious websites); credentials and payments never pass through the model's context. It's a security architecture designed for an agent that touches money and inboxes.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">4.3 <span class="step-title">— The infrastructure underneath</span></div>
+      <div class="step-body">
+        <p class="mb-0">Muse runs on Meta's own data centers (including the multi-gigawatt <strong>Hyperion</strong> campus referenced in the Muse Spark launch) funded by 2026 capex guided at <strong>$130–145B</strong>, up from ~$72B in 2025. Zuckerberg has spoken of $600B+ of US AI infrastructure investment through 2028. Unlike OpenAI or Anthropic, Meta pays for this from its own ad cash flow — which is both its biggest advantage and the thing investors are most nervous about (operating margin fell to 31% in Q2 2026 from 43% a year earlier).</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 5. DEVELOPER -->
+  <section id="dev" class="mb-5">
+    <h2 class="section-title">5. How a Developer Builds on Muse</h2>
+
+    <div class="card shadow-sm accent-purple mb-4">
+      <div class="card-body">
+        <p class="mb-0">There is no single "Muse SDK." A developer has <strong>six on-ramps</strong>, depending on whether they want to <em>use Meta's brains</em> in their own app, <em>plug their service into Meta's agent</em>, or <em>build for Meta's devices</em>.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.1 <span class="step-title">— The six on-ramps at a glance</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>On-ramp</th><th>You build…</th><th>How</th><th>Status (Oct 2026)</th></tr></thead>
+            <tbody>
+              <tr><td><strong>A. Meta Model API</strong></td><td>Your own app/agent powered by Muse Spark</td><td>OpenAI-compatible REST API: chat, parallel tool calling, structured output, images/video/PDF, 1M context. Also via Oracle Cloud; Google Cloud (private preview)</td><td>GA globally. Reported price for Spark 1.3: ~$1.25 / $4.25 per M input / output tokens</td></tr>
+              <tr><td><strong>B. Open weights</strong></td><td>Self-hosted / on-device / fine-tuned models</td><td>Download Muse Glimmer (30B, Apache 2.0) from Hugging Face; run on one GPU or a Mac mini; fine-tune with LoRA</td><td>Available. Open Spark 1.2 variant promised</td></tr>
+              <tr><td><strong>C. Muse Connectors</strong></td><td>Your service becomes a skill inside Muse (like OpenTable, Spotify, Peloton)</td><td>Submit your product → Meta functional/security/legal review → listed in the Muse connector directory. Payments on Stripe Link</td><td>Opened 18 Sep 2026. Tech spec, fees and revenue share <strong>not yet published</strong></td></tr>
+              <tr><td><strong>D. Meta AI Connectors (API / MCP)</strong></td><td>Same idea, built yourself with open standards</td><td>Expose your service as an API or <strong>MCP server</strong>; it then appears in Meta AI conversations across surfaces (app, WhatsApp, glasses)</td><td>Developer preview</td></tr>
+              <tr><td><strong>E. Wearables</strong></td><td>Glasses-aware features for your app</td><td>Wearables Device Access Toolkit 1.0 (camera, voice, "Hey Meta", Neural Band gestures); web apps for Ray-Ban Display with <strong>WebMCP</strong> so Meta AI can call your page's functions</td><td>Toolkit 1.0 GA; WebMCP preview</td></tr>
+              <tr><td><strong>F. Muse Code / Business Agent / Horizon</strong></td><td>Software (coding agent), business messaging agents, games</td><td>Muse Code: multi-agent coding in isolated workspaces (Windows/Mac). Business Agent: your WhatsApp/Messenger storefront answers, books and sells. Horizon Create/Studio: prompt-built games published to FB/IG</td><td>GA</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.2 <span class="step-title">— On-ramp A: calling Muse Spark from your own code</span></div>
+      <div class="step-body">
+        <p>Because the API is OpenAI-compatible, any code written for the OpenAI SDK works by changing the base URL, key and model name. <em>The base URL and model ID below are illustrative — use the values in your dashboard at dev.meta.ai.</em></p>
+<pre><code class="language-python"># pip install openai
+import os, json
+from openai import OpenAI
+
+client = OpenAI(
+    base_url=os.environ["META_MODEL_API_BASE"],   # from dev.meta.ai
+    api_key=os.environ["META_MODEL_API_KEY"],
+)
+
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "find_tables",
+        "description": "Find open restaurant tables",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cuisine":  {"type": "string"},
+                "party":    {"type": "integer"},
+                "datetime": {"type": "string", "description": "ISO 8601"},
+                "vegetarian_friendly": {"type": "boolean"},
+            },
+            "required": ["party", "datetime"],
+        },
+    },
+}]
+
+resp = client.chat.completions.create(
+    model="muse-spark-1.3",          # illustrative model id
+    messages=[{"role": "user",
+               "content": "Dinner for 6 this Friday 7pm, one vegetarian, not downtown."}],
+    tools=tools,
+)
+call = resp.choices[0].message.tool_calls[0]
+print(call.function.name, json.loads(call.function.arguments))</code></pre>
+        <p class="mb-0"><strong>Why a developer would choose it:</strong> competitive price, strong multimodal (photos of menus, receipts, shelves), 1M context, and — the unique part — the same model and tool format that powers Muse, so what you build can later be exposed to Muse users as a connector.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.3 <span class="step-title">— On-ramp C/D: making your service something Muse can use</span></div>
+      <div class="step-body">
+        <p>This is the strategically important one — it's how a restaurant platform, a pizza-ordering system or a bookkeeping app gets <em>chosen by the agent</em>. Meta's connectors accept an API or an MCP (Model Context Protocol) server. A minimal MCP server for a restaurant looks like this:</p>
+<pre><code class="language-python"># pip install mcp     — official Model Context Protocol Python SDK
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("luigis-trattoria")
+
+@mcp.tool()
+def check_availability(date: str, time: str, party_size: int) -&gt; list[str]:
+    """Return open time slots near the requested time."""
+    return reservations_db.open_slots(date, time, party_size)
+
+@mcp.tool()
+def book_table(date: str, time: str, party_size: int,
+               name: str, phone: str, notes: str = "") -&gt; dict:
+    """Book a table. Notes can include dietary needs."""
+    return reservations_db.create(date, time, party_size, name, phone, notes)
+
+@mcp.tool()
+def menu(dietary: str = "") -&gt; list[dict]:
+    """Return menu items, optionally filtered (e.g. 'vegetarian')."""
+    return menu_db.items(dietary)
+
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")   # host it; register the URL as a connector</code></pre>
+        <p class="mb-1"><strong>The path from code to users:</strong></p>
+        <ol class="mb-0">
+          <li>Host the server (HTTPS, with OAuth so each Muse user authorizes their own account).</li>
+          <li>Test it as a <em>custom connector</em> in your own Muse account (custom connectors aren't reviewed by Meta and only you can use them).</li>
+          <li>Submit to the <strong>Muse Connectors</strong> program → Meta end-to-end testing (functional, security, legal) → listed in the directory. Featured placement is editorial.</li>
+          <li>Offer read-only mode where possible — users can restrict connectors to "retrieve data, not take actions."</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.4 <span class="step-title">— On-ramp B: running Meta's open model yourself</span></div>
+      <div class="step-body">
+<pre><code class="language-python"># Run Muse Glimmer locally (Apache 2.0). Repo name illustrative — check Meta's Hugging Face org.
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+repo = "meta-muse/Muse-Glimmer-30B"
+tok = AutoTokenizer.from_pretrained(repo)
+model = AutoModelForCausalLM.from_pretrained(repo, device_map="auto", torch_dtype="auto")
+
+msgs = [{"role": "user", "content": "Categorize: 'Sysco invoice #4471 mozzarella $612'"}]
+ids = tok.apply_chat_template(msgs, add_generation_prompt=True, return_tensors="pt").to(model.device)
+print(tok.decode(model.generate(ids, max_new_tokens=128)[0][ids.shape[1]:]))</code></pre>
+        <p class="mb-0">Use this when data can't leave your premises, when you need to fine-tune on your own data, or when per-token API cost would be too high at volume. Apache 2.0 is more permissive than the old Llama community license (no user-count cap, no "built with Llama" naming rules).</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">5.5 <span class="step-title">— What a developer should weigh before betting on Muse</span></div>
+      <div class="step-body">
+        <ul class="mb-0">
+          <li><strong>Pro — distribution.</strong> A listed connector is one tap away from Meta's billions of users, inside WhatsApp. No other agent platform has that reach.</li>
+          <li><strong>Pro — open standards.</strong> MCP and an OpenAI-compatible API mean the same work also plugs into ChatGPT, Claude and Gemini agents. Low lock-in for the developer.</li>
+          <li><strong>Con — unknown economics.</strong> No published fee, revenue share or ranking rules. Meta controls featured placement — the agent, not the user, may choose which restaurant app gets the booking.</li>
+          <li><strong>Con — platform risk.</strong> Meta has changed developer terms before (Facebook Platform 2014–18). And its model strategy flipped open → closed → partly open within six months in 2026.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 6. VISION / LLAMA -->
+  <section id="vision" class="mb-5">
+    <h2 class="section-title">6. How Muse Fits Meta's AI Vision — and What Happened to Llama</h2>
+
+    <div class="card shadow-sm accent-blue mb-4">
+      <div class="card-body">
+        <p class="mb-0"><strong>Meta's stated goal is "personal superintelligence":</strong> an AI that knows you, sees what you see (through glasses), and helps you reach <em>your</em> goals — explicitly positioned against rivals that, in Zuckerberg's framing, aim to automate work centrally. Muse Spark is described as "the first step on our scaling ladder" toward that. Muse the app is the first product that looks like it.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">6.1 <span class="step-title">— Llama era vs. Muse era</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th></th><th>Llama era (2023 – 2025)</th><th>Muse era (2026 →)</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Strategy</strong></td><td>"Commoditize the complement": give away good models so no rival owns the AI layer Meta depends on</td><td>Own the frontier model <em>and</em> the product built on it; open-source selectively</td></tr>
+              <tr><td><strong>Weights</strong></td><td>Open (Llama community license)</td><td>Frontier (Spark) closed; small models (Glimmer) open, Apache 2.0; open Spark 1.2 variant promised</td></tr>
+              <tr><td><strong>Team</strong></td><td>FAIR + GenAI org</td><td>Meta Superintelligence Labs under Alexandr Wang; rebuilt pre-training stack</td></tr>
+              <tr><td><strong>Monetization</strong></td><td>Indirect (better ads, engagement); none from the model itself</td><td>Direct too: API, Muse subscriptions, business agents, enterprise platform</td></tr>
+              <tr><td><strong>Product</strong></td><td>Meta AI chatbot inside apps</td><td>Muse agent across apps, Mac, web and wearables</td></tr>
+              <tr><td><strong>Reach</strong></td><td>Llama reportedly passed 2B downloads by mid-2026</td><td>Meta AI &gt;1.5B monthly users (reported); Muse #1 in US App Store at launch</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">6.2 <span class="step-title">— Why Meta moved away from Llama</span></div>
+      <div class="step-body">
+        <ol class="mb-0">
+          <li><strong>Llama 4 lost the lead.</strong> Its 2025 reception was weak, with benchmark-contamination allegations; Chinese open models (Qwen, DeepSeek) overtook Llama in Hugging Face downloads. Open-sourcing only works as a strategy if your model is the one people pick.</li>
+          <li><strong>Giving away the frontier helps rivals more than Meta.</strong> Once Meta spends $100B+/year on compute, handing the result to every competitor (including Chinese labs) is hard to justify to shareholders.</li>
+          <li><strong>The product is now the moat, not the model.</strong> For an agent like Muse, the edge is model + memory + social graph + distribution + devices together. Keeping the frontier model closed lets Meta tune it for Muse first.</li>
+          <li><strong>Revenue.</strong> A closed frontier model can be sold via API; an open one can't.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">6.3 <span class="step-title">— Why Meta did not abandon open source entirely</span></div>
+      <div class="step-body">
+        <p>Five days after Muse Spark 1.2 launched closed (5 Aug), Meta released Muse Glimmer under Apache 2.0 and promised an open Spark 1.2 variant (10 Aug). Analysts (Futurum) read this as: open weights keep developers in Meta's orbit, push back on Chinese open models, help with regulators and policy, and cost almost no revenue at the 30B size. The Llama <em>brand</em> has effectively been superseded by Muse; Llama models remain available and widely deployed. (Some outlets reported a "Llama 5" release in April 2026 alongside Muse Spark; this note could not confirm that against Meta's own announcements and treats it as unverified.)</p>
+        <p class="mb-0"><strong>Net position:</strong> Meta now runs the same two-tier playbook as Google (Gemini closed / Gemma open) — frontier for itself, smaller models for the ecosystem.</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm accent-green">
+      <div class="card-body">
+        <p class="mb-0"><strong>How it all lines up:</strong> Llama bought Meta developer goodwill and kept the model layer cheap while Meta was behind. MSL and Muse Spark are Meta's bid to be at the frontier itself. The Muse app is where that model meets Meta's unique assets — 3.6B daily users, the social graph, WhatsApp, and glasses. Glimmer keeps the open-source door open. Together they are one strategy: <strong>own the personal agent, and make sure no one else's model or OS sits between Meta and its users.</strong></p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 7. VALUE TO META -->
+  <section id="value" class="mb-5">
+    <h2 class="section-title">7. Long-Term Value to Meta</h2>
+
+    <div class="card shadow-sm accent-yellow mb-4">
+      <div class="card-body">
+        <p class="mb-1"><strong>The numbers Muse has to pay back (Q2 2026):</strong></p>
+        <ul class="mb-0">
+          <li>Revenue $60.8B (+28% YoY); operating margin 31% (vs 43%); EPS $6.18 (−13% YoY, includes $2.4B legal and $1.2B severance charges).</li>
+          <li>2026 capex $130–145B; total expenses $165–169B.</li>
+          <li>Family daily active people 3.6B. Reality Labs lost $4.6B in the quarter.</li>
+          <li>WhatsApp paid messaging + subscriptions reportedly passed $1B in a quarter; &gt;1M businesses using Business Agents weekly (reported).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.1 <span class="step-title">— Owning the "intent layer" (the biggest prize)</span></div>
+      <div class="step-body">
+        <p class="mb-0">Today, when someone wants to do something, they start at Google search or an app store — gatekeepers Meta doesn't control and pays dearly to reach (Apple's 2021 ATT privacy change alone cost Meta ~$10B a year in ad revenue). If people instead start with "Muse, do X," Meta owns the moment of intent — the most valuable position on the internet — and decides which business fulfills it. That's the long-term strategic value, larger than any single revenue line.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.2 <span class="step-title">— Six revenue paths, near-term to long-term</span></div>
+      <div class="step-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped lib-table mb-0">
+            <thead><tr><th>Path</th><th>Mechanism</th><th>Timing</th><th>Size potential</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1. Better core ads</strong></td><td>Same model stack improves ad ranking, creative generation (Advantage+), and engagement in FB/IG; Meta AI usage up ~60% daily after the Muse Spark rebuild</td><td>Now</td><td>Largest near-term; already in the numbers</td></tr>
+              <tr><td><strong>2. Business messaging</strong></td><td>Businesses pay for WhatsApp/Messenger conversations handled by Business Agents. Muse users (and their agents) messaging businesses grows that volume</td><td>Now → 2028</td><td>Large — WhatsApp is Meta's most under-monetized asset</td></tr>
+              <tr><td><strong>3. Consumer subscriptions</strong></td><td>Muse Power / Maximum tiers (reported $20 / $100 per month)</td><td>Now</td><td>Medium; a 2–3% paid conversion on hundreds of millions of users is billions per year</td></tr>
+              <tr><td><strong>4. Agentic commerce</strong></td><td>Muse buys and books via Stripe Link and connectors; Meta can earn on transactions, sponsored placement among connectors, or lead fees</td><td>2027 →</td><td>Potentially very large; terms not yet disclosed</td></tr>
+              <tr><td><strong>5. Developer &amp; enterprise</strong></td><td>Meta Model API, Muse Code, Meta Enterprise Platform, cloud resale (Oracle, Google Cloud)</td><td>2026 →</td><td>New business line; small vs. ads but helps fund capex</td></tr>
+              <tr><td><strong>6. Hardware platform</strong></td><td>Muse is the reason to buy glasses / VR Glasses / Charm, and gives Meta its own OS-level distribution</td><td>2027 → 2030</td><td>Turns Reality Labs from a cost center into the agent's home</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.3 <span class="step-title">— The flywheel</span></div>
+      <div class="step-body">
+<div class="code-window">
+  <div class="code-titlebar"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-filename">muse-flywheel.txt</span></div>
+<pre><code>3.6B daily users + WhatsApp distribution
+   → millions try Muse for free
+      → more tasks = more (opt-in) feedback → better Muse Spark
+         → more businesses build connectors / Business Agents to be "chosen"
+            → Muse can do more → more users rely on it daily
+               → more intent, commerce and messaging revenue
+                  → funds more compute + cheaper, better models
+                     → better glasses / devices → Muse everywhere → (repeat)</code></pre>
+</div>
+        <p class="mb-0">Compare with CUDA: NVIDIA's moat is accumulated developer adoption. Muse's would be accumulated <strong>personal context</strong> (memory, connected accounts, routines) plus <strong>business supply</strong> (connectors and agents). Once an agent knows your life and your services are wired in, switching costs are high — the same lock-in logic, applied to consumers.</p>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-bar">7.4 <span class="step-title">— Strategic defenses Muse gives Meta</span></div>
+      <div class="step-body">
+        <ul class="mb-0">
+          <li><strong>Against OpenAI / Google:</strong> keeps Meta's users from forming the "AI assistant" habit on ChatGPT or Gemini — Meta's apps would become mere destinations inside someone else's agent.</li>
+          <li><strong>Against Apple / Google OS control:</strong> an agent in WhatsApp plus Meta's own glasses OS reduces dependence on iOS and Android — the lesson of ATT.</li>
+          <li><strong>Against Chinese open models:</strong> Glimmer and an open Spark variant keep a Western open-model option with Meta's name on it.</li>
+          <li><strong>Talent and credibility:</strong> after Llama 4, shipping a top-5 model and a #1 app restores Meta's standing as a frontier lab — which matters for hiring and for justifying capex to investors.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 8. RISKS -->
+  <section id="weaken" class="mb-5">
+    <h2 class="section-title">8. What Could Go Wrong</h2>
+    <div class="card shadow-sm accent-red">
+      <div class="card-body">
+        <ul class="mb-2">
+          <li><strong>Novelty vs. habit.</strong> Chart-topping launches fade (Threads, Bondee, many AI apps). The real test is daily active use 6–12 months out, which Meta hasn't reported.</li>
+          <li><strong>Trust and regulation.</strong> An agent that reads your messages and spends your money, run by a company under FTC consent orders, invites scrutiny; EU rollout faces the AI Act and DMA. One high-profile agent mistake (wrong purchase, leaked data, prompt-injection attack) could set adoption back badly.</li>
+          <li><strong>Model gap.</strong> Muse Spark is top-5, not #1, and was weaker at coding and long-horizon agent tasks — the exact skills agents need. OpenAI, Google and Anthropic iterate fast.</li>
+          <li><strong>Capex vs. return.</strong> $130–145B a year with margins already down 12 points. If agent monetization takes until 2028+, investors may lose patience (the stock fell after Q2 on guidance and free cash flow).</li>
+          <li><strong>Ad tension.</strong> Meta promised Muse chats stay out of ad systems. If Muse does your shopping, fewer people see ads — a possible cannibalization of the core business that commerce revenue must replace.</li>
+          <li><strong>Web pushback.</strong> Sites that block automated agents, and platforms (Apple, Google, Amazon) that prefer their own agents, can limit what Muse can reach.</li>
+          <li><strong>Developer trust.</strong> Open → closed → partly open in six months, plus undisclosed connector economics, makes developers cautious about building only for Meta.</li>
+        </ul>
+        <p class="mb-0">None of these is fatal, but together they mean Muse is currently a <strong>well-funded, well-distributed option</strong> on the agent future — not yet a proven business.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 9. BOTTOM LINE -->
+  <section id="bottomline" class="mb-5">
+    <h2 class="section-title">9. Bottom Line</h2>
+    <div class="card shadow-sm accent-green">
+      <div class="card-body">
+        <p><strong>For consumers:</strong> Muse isn't a better restaurant app; it's an assistant that runs <em>errands</em> spanning apps and people, using context only Meta has (your conversations and social graph), from WhatsApp, for free. The more complex and social the task, the bigger the edge.</p>
+        <p><strong>For developers:</strong> build with open standards — an OpenAI-compatible API, MCP connectors, Apache-licensed open weights — and get potential reach to billions of users. The catch: connector economics and ranking rules are still undisclosed.</p>
+        <p><strong>For Meta:</strong> Muse is the successor to Llama as the center of its AI strategy and the bridge to its hardware future. The long-term prize is owning the moment of user intent — the position Google holds in search — with revenue from messaging, subscriptions, commerce and enterprise layered on top of a stronger ad engine.</p>
+        <p class="mb-0"><strong>For an investor:</strong> watch four signals over the next 4–6 quarters: (1) Muse daily/weekly active users and paid conversion, (2) WhatsApp business-messaging revenue growth, (3) published connector economics and the number of live connectors, (4) whether capex growth starts producing operating-margin recovery. If those trend up, Muse could matter as much to Meta's next decade as mobile ads did to its last.</p>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+  <!-- 10. SOURCES -->
+  <section id="sources" class="mb-5">
+    <h2 class="section-title">10. Sources</h2>
+    <div class="card shadow-sm accent-yellow">
+      <div class="card-body">
+        <ul class="mb-0">
+          <li><a href="https://about.fb.com/news/2026/04/introducing-muse-spark-meta-superintelligence-labs/">Meta Newsroom — Introducing Muse Spark (Apr 2026)</a></li>
+          <li><a href="https://ai.meta.com/blog/introducing-muse-spark-msl/">Meta AI Blog — Introducing Muse Spark: Scaling Towards Personal Superintelligence</a></li>
+          <li><a href="https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/">Meta AI Blog — Introducing Muse Spark 1.1 and the Meta Model API</a></li>
+          <li><a href="https://developers.meta.com/blog/meta-connect-recap/">Meta for Developers — Meta Connect 2026: the end-to-end recap</a></li>
+          <li><a href="https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Second-Quarter-2026-Results/default.aspx">Meta Investor Relations — Q2 2026 results</a></li>
+          <li><a href="https://techcrunch.com/2026/04/08/meta-debuts-the-muse-spark-model-in-a-ground-up-overhaul-of-its-ai/">TechCrunch — Meta debuts the Muse Spark model in a "ground-up overhaul" of its AI</a></li>
+          <li><a href="https://techcrunch.com/2026/09/29/meta-is-expanding-its-ai-agent-muse-to-small-businesses/">TechCrunch — Meta is expanding its AI agent Muse to small businesses</a></li>
+          <li><a href="https://abcnews.com/Technology/wireStory/meta-launches-personal-ai-agent-muse-emphasizes-safety-136284133">AP / ABC News — Meta launches personal AI agent Muse, emphasizes safety and privacy</a></li>
+          <li><a href="https://www.cnbc.com/2026/08/05/meta-debuts-muse-code-to-take-on-anthropic-and-openai-.html">CNBC — Meta debuts Muse Code to take on Anthropic and OpenAI</a></li>
+          <li><a href="https://www.cnbc.com/2026/08/10/meta-muse-glimmer-open-weight-ai.html">CNBC — Meta launches Muse Glimmer open-weight AI model</a></li>
+          <li><a href="https://www.cnbc.com/2026/07/29/meta-q2-earnings-report-2026.html">CNBC — Meta's stock drops on guidance, dwindling free cash flow (Q2 2026)</a></li>
+          <li><a href="https://www.deeplearning.ai/the-batch/with-muse-spark-meta-pivots-away-from-its-open-weights-llama-strategy">The Batch (DeepLearning.AI) — With Muse Spark, Meta pivots away from its open-weights Llama strategy</a></li>
+          <li><a href="https://futurumgroup.com/insights/meta-reopens-its-models-is-this-a-pc-play-or-a-policy-play/">Futurum — Meta reopens its models: a PC play or a policy play?</a></li>
+          <li><a href="https://cellcog.ai/blog/muse-connector-platform/">CellCog — Muse Connector Platform: what Meta opened to developers</a></li>
+          <li><a href="https://codersera.com/blog/meta-muse-ai-agent-app-guide-2026/">Codersera — Meta Muse: complete guide (pricing, adoption, architecture — secondary)</a></li>
+          <li><a href="https://www.tomsguide.com/news/live/meta-connect-2026-live">Tom's Guide — Meta Connect 2026 recap (VR Glasses, Muse Charm, Ray-Ban Gen 3)</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Meta_Superintelligence_Labs">Wikipedia — Meta Superintelligence Labs</a></li>
+          <li><a href="https://modelcontextprotocol.io/">Model Context Protocol — specification and SDKs</a></li>
+          <li><a href="CUDA-ECOSYSTEM.html">Companion analysis: The CUDA Ecosystem</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="back-to-top mt-2"><a href="#toc">↑ Back to Table of Contents</a></p>
+  </section>
+
+</main>
+
+<footer class="text-white py-4 mt-5">
+  <div class="container text-center small">
+    Business of AI — ecosystem analysis notes. Facts as of 2 Oct 2026 from Meta announcements, Meta Q2 2026 results and press coverage; figures marked "reported" are from third parties and not confirmed by Meta.
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/build/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
